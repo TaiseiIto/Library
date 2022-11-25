@@ -11,7 +11,7 @@ int main(void)
 	std::cout << "-vector_a = " << -vector_a << std::endl;
 	std::cout << "vector_a + vector_b = " << (vector_a + vector_b) << std::endl;
 	std::cout << "vector_a - vector_b = " << (vector_a - vector_b) << std::endl;
-	std::cout << "vector_a , vector_b = " << (vector_a , vector_b) << std::endl;
+	std::cout << "vector_a, vector_b = " << (vector_a, vector_b) << std::endl;
 	std::cout << "vector_a * vector_b = " << (vector_a * vector_b) << std::endl;
 	std::cout << "vector_a ^ vector_b = " << (vector_a ^ vector_b) << std::endl;
 	std::cout << "!vector_a = " << !vector_a << std::endl;
