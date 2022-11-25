@@ -16,6 +16,8 @@ namespace Dynamics
 		double get_x()const;
 		double get_y()const;
 		double get_z()const;
+		Vector operator+(const Vector &vector)const;
+		Vector operator-(const Vector &vector)const;
 	};
 }
 

@@ -1,3 +1,4 @@
+#include <iomanip>
 #include "dynamics.hpp"
 
 Dynamics::Vector::Vector(double x, double y, double z):x(x), y(y), z(z)
@@ -27,9 +28,19 @@ double Dynamics::Vector::get_z()const
 	return this->z;
 }
 
+Dynamics::Vector Dynamics::Vector::operator+(const Dynamics::Vector &vector)const
+{
+	return Dynamics::Vector(x + vector.get_x(), y + vector.get_y(), z + vector.get_z());
+}
+
+Dynamics::Vector Dynamics::Vector::operator-(const Dynamics::Vector &vector)const
+{
+	return Dynamics::Vector(x - vector.get_x(), y - vector.get_y(), z - vector.get_z());
+}
+
 std::ostream& operator<<(std::ostream &ostream, const Dynamics::Vector &vector)
 {
-	ostream << "(" << vector.get_x() << "," << vector.get_y() << "," << vector.get_z() << ")";
+	ostream << "(" << std::setw(10) << vector.get_x() << "," << std::setw(10) << vector.get_y() << "," << std::setw(10) << vector.get_z() << ")";
 	return ostream;
 }
 
