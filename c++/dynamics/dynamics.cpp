@@ -6,7 +6,7 @@ Dynamics::Vector::Vector(double x, double y, double z):x(x), y(y), z(z)
 {
 }
 
-Dynamics::Vector::Vector(const Vector& vector):x(vector.x), y(vector.y), z(vector.z)
+Dynamics::Vector::Vector(const Dynamics::Vector& vector):x(vector.x), y(vector.y), z(vector.z)
 {
 }
 
@@ -54,7 +54,7 @@ Dynamics::Vector Dynamics::Vector::operator*(const Dynamics::Vector &vector)cons
 	return Dynamics::Vector(this->y * vector.get_z() - this->z * vector.get_y(), this->z * vector.get_x() - this->x * vector.get_z(), this->x * vector.get_y() - this->y * vector.get_x());
 }
 
-double Dynamics::Vector::operator,(const Vector &vector)const // inner product
+double Dynamics::Vector::operator,(const Dynamics::Vector &vector)const // inner product
 {
 	return this->x * vector.get_x() + this->y * vector.get_y() + this->z * vector.get_z();
 }
