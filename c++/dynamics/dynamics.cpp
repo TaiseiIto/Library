@@ -82,7 +82,8 @@ double Dynamics::Vector::operator*()const // length ^ 2
 
 std::ostream& operator<<(std::ostream &ostream, const Dynamics::Vector &vector)
 {
-	ostream << "(" << std::setw(10) << vector.get_x() << "," << std::setw(10) << vector.get_y() << "," << std::setw(10) << vector.get_z() << ")";
+	const unsigned int length = 10;
+	ostream << "(" << std::setw(length) << vector.get_x() << "," << std::setw(length) << vector.get_y() << "," << std::setw(length) << vector.get_z() << ")";
 	return ostream;
 }
 
