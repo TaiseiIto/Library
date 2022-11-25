@@ -67,7 +67,7 @@ double Dynamics::Vector::operator^(const Dynamics::Vector &vector)const // angle
 		ERROR();
 		return 0;
 	}
-	return (*this, vector) / denominator;
+	return std::acos((*this, vector) / denominator);
 }
 
 double Dynamics::Vector::operator!()const // length
