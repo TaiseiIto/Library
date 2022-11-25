@@ -49,14 +49,14 @@ Dynamics::Vector Dynamics::Vector::operator-(const Dynamics::Vector &vector)cons
 	return Dynamics::Vector(x - vector.get_x(), y - vector.get_y(), z - vector.get_z());
 }
 
-double Dynamics::Vector::operator,(const Vector &vector)const // inner product
-{
-	return this->x * vector.get_x() + this->y * vector.get_y() + this->z * vector.get_z();
-}
-
 Dynamics::Vector Dynamics::Vector::operator*(const Dynamics::Vector &vector)const // cross product
 {
 	return Dynamics::Vector(this->y * vector.get_z() - this->z * vector.get_y(), this->z * vector.get_x() - this->x * vector.get_z(), this->x * vector.get_y() - this->y * vector.get_x());
+}
+
+double Dynamics::Vector::operator,(const Vector &vector)const // inner product
+{
+	return this->x * vector.get_x() + this->y * vector.get_y() + this->z * vector.get_z();
 }
 
 double Dynamics::Vector::operator^(const Dynamics::Vector &vector)const // angle between vectors
