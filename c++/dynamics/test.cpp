@@ -1,8 +1,9 @@
 #include <iostream>
+#include "dynamics.hpp"
 
 int main(void)
 {
-	std::cout << "Hello, World!" << std::endl;
+	std::cout << Dynamics::Vector(1,2,3) << std::endl;
 	return EXIT_SUCCESS;
 }
 

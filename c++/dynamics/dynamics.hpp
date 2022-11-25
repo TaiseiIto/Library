@@ -1,0 +1,25 @@
+#ifndef _DYNAMICS_HPP_
+#define _DYNAMICS_HPP_
+
+#include <iostream>
+
+namespace Dynamics
+{
+	class Vector
+	{
+	private:
+		double x, y, z;
+	public:
+		Vector(double x, double y, double z);
+		Vector(const Vector& vector);
+		~Vector();
+		double get_x()const;
+		double get_y()const;
+		double get_z()const;
+	};
+}
+
+std::ostream& operator<<(std::ostream &ostream, const Dynamics::Vector &vector);
+
+#endif
+
