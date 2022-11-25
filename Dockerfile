@@ -25,6 +25,7 @@ RUN apt install wget -y
 WORKDIR /root
 RUN git clone https://github.com/TaiseiIto/Library.git
 WORKDIR /root/Library
+RUN make
 
 # ash setting
 RUN cat ash/.profile >> /root/.bashrc
