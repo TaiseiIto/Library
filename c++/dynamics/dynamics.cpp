@@ -80,10 +80,37 @@ double Dynamics::Vector::operator*()const // length ^ 2
 	return (*this, *this);
 }
 
+Dynamics::Plane::Plane(const Dynamics::Coordinates& point, const Dynamics::Vector& normal):point(point), normal(normal)
+{
+}
+
+Dynamics::Plane::Plane(const Dynamics::Plane& plane):point(plane.point), normal(plane.normal)
+{
+}
+
+Dynamics::Plane::~Plane()
+{
+}
+
+Dynamics::Coordinates Dynamics::Plane::get_point()const
+{
+	return point;
+}
+
+Dynamics::Vector Dynamics::Plane::get_normal()const
+{
+	return normal;
+}
+
 std::ostream& operator<<(std::ostream &ostream, const Dynamics::Vector &vector)
 {
-	const unsigned int length = 10;
-	ostream << "(" << std::setw(length) << vector.get_x() << "," << std::setw(length) << vector.get_y() << "," << std::setw(length) << vector.get_z() << ")";
+	ostream << "(" << std::setw(Dynamics::print_length) << vector.get_x() << "," << std::setw(Dynamics::print_length) << vector.get_y() << "," << std::setw(Dynamics::print_length) << vector.get_z() << ")";
+	return ostream;
+}
+
+std::ostream& operator<<(std::ostream &ostream, const Dynamics::Plane &plane)
+{
+	ostream << "(point = " << plane.get_point() << ", normal = " << plane.get_normal() << ")";
 	return ostream;
 }
 

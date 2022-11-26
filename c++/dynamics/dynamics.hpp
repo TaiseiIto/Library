@@ -33,9 +33,23 @@ namespace Dynamics
 		double operator*()const; // length ^ 2
 	};
 	using Coordinates = Vector;
+	class Plane
+	{
+	private:
+		Coordinates point; // The plane contains the point.
+		Vector normal; // The plane and the normal form a right angle.
+	public:
+		Plane(const Coordinates& point, const Vector& normal);
+		Plane(const Plane& plane);
+		~Plane();
+		Coordinates get_point()const;
+		Vector get_normal()const;
+	};
+	const unsigned int print_length = 10;
 }
 
 std::ostream& operator<<(std::ostream &ostream, const Dynamics::Vector &vector);
+std::ostream& operator<<(std::ostream &ostream, const Dynamics::Plane &plane);
 
 #endif
 
