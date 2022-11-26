@@ -28,7 +28,7 @@ namespace Dynamics
 		Vector operator-(const Vector &vector)const;
 		Vector operator*(const Vector &vector)const; // cross product
 		double operator,(const Vector &vector)const; // inner product
-		double operator^(const Vector &vector)const; // angle between vectors
+		double operator/(const Vector &vector)const; // angle between vectors
 		double operator!()const; // length
 		double operator*()const; // length ^ 2
 	};
