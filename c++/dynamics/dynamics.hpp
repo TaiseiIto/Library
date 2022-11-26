@@ -48,6 +48,7 @@ namespace Dynamics
 		~Plane();
 		Coordinates get_point()const;
 		Vector get_normal()const;
+		Coordinates operator-(const Coordinates& point)const; // normal from point to plane
 		double operator/(const Plane &plane)const; // angle between vectors
 		double operator/(const Dynamics::Vector& vector)const; // angle between plane and vector
 	};
@@ -55,6 +56,7 @@ namespace Dynamics
 }
 
 Dynamics::Vector operator*(double a, const Dynamics::Vector& vector); // scalar multiplication of vector
+Dynamics::Coordinates operator-(const Dynamics::Coordinates& point, const Dynamics::Plane& plane); // normal from plane to point
 Dynamics::Coordinates operator>(const Dynamics::Coordinates& point, const Dynamics::Plane& plane); // projection of point onto plane
 std::ostream& operator<<(std::ostream &ostream, const Dynamics::Vector &vector);
 std::ostream& operator<<(std::ostream &ostream, const Dynamics::Plane &plane);

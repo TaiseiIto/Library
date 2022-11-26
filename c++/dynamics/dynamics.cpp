@@ -117,6 +117,11 @@ Dynamics::Vector Dynamics::Plane::get_normal()const
 	return this->normal;
 }
 
+Dynamics::Coordinates Dynamics::Plane::operator-(const Coordinates& point)const // normal from point to plane
+{
+	return point - *this;
+}
+
 double Dynamics::Plane::operator/(const Plane &plane)const // angle between vectors
 {
 	return M_PI - (this->normal / plane.normal);
@@ -132,12 +137,16 @@ Dynamics::Vector operator*(double a, const Dynamics::Vector& vector) // scalar m
 	return vector * a;
 }
 
-Dynamics::Coordinates operator>(const Dynamics::Coordinates& point, const Dynamics::Plane& plane) // projection of point onto plane
+Dynamics::Coordinates operator-(const Dynamics::Coordinates& point, const Dynamics::Plane& plane) // normal from plane to point
 {
 	Dynamics::Vector n = plane.get_normal();
 	Dynamics::Vector qp = point - plane.get_point();
-	Dynamics::Vector normal = ((qp , n) / *n) * n;
-	return point - normal;
+	return ((qp , n) / *n) * n;
+}
+
+Dynamics::Coordinates operator>(const Dynamics::Coordinates& point, const Dynamics::Plane& plane) // projection of point onto plane
+{
+	return point - (point - plane);
 }
 
 std::ostream& operator<<(std::ostream &ostream, const Dynamics::Vector &vector)
