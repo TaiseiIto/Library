@@ -82,9 +82,14 @@ double Dynamics::Vector::operator*()const // length ^ 2
 
 Dynamics::Plane::Plane(const Dynamics::Coordinates& point, const Dynamics::Vector& normal):point(point), normal(normal)
 {
+	if(*normal == 0)ERROR();
 }
 
-Dynamics::Plane::Plane(const Dynamics::Plane& plane):point(plane.point), normal(plane.normal)
+Dynamics::Plane::Plane(const Dynamics::Plane& plane):Dynamics::Plane::Plane(plane.point, plane.normal)
+{
+}
+
+Dynamics::Plane::Plane(const Dynamics::Coordinates& a, const Dynamics::Coordinates& b, const Dynamics::Coordinates& c):Dynamics::Plane::Plane(a, (b - a) * (c - a)) // A plane containing given 3 points.
 {
 }
 

@@ -40,6 +40,7 @@ namespace Dynamics
 		Vector normal; // The plane and the normal form a right angle.
 	public:
 		Plane(const Coordinates& point, const Vector& normal);
+		Plane(const Coordinates& a, const Coordinates& b, const Coordinates& c); // A plane containing given 3 points.
 		Plane(const Plane& plane);
 		~Plane();
 		Coordinates get_point()const;
