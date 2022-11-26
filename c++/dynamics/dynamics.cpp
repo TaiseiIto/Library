@@ -90,6 +90,11 @@ double Dynamics::Vector::operator*()const // length / 2
 	return (*this, *this);
 }
 
+Dynamics::Vector Dynamics::Vector::operator>>(const Dynamics::Plane& plane)const // projection of vector onto plane
+{
+	return (*this > plane) - (Dynamics::Vector(0, 0, 0) > plane);
+}
+
 Dynamics::Plane::Plane(const Dynamics::Coordinates& point, const Dynamics::Vector& normal):point(point), normal(normal)
 {
 	if(*normal == 0)ERROR();

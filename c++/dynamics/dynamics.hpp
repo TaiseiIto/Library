@@ -34,6 +34,7 @@ namespace Dynamics
 		double operator/(const Dynamics::Plane& plane)const; // angle between vector and plane
 		double operator!()const; // length
 		double operator*()const; // length ^ 2
+		Vector operator>>(const Plane& plane)const; // projection of vector onto plane
 	};
 	using Coordinates = Vector;
 	class Plane
