@@ -49,6 +49,11 @@ Dynamics::Vector Dynamics::Vector::operator-(const Dynamics::Vector &vector)cons
 	return Dynamics::Vector(x - vector.get_x(), y - vector.get_y(), z - vector.get_z());
 }
 
+Dynamics::Vector Dynamics::Vector::operator*(double a)const // scalar multiplication of vector
+{
+	return Dynamics::Vector(a * this->x, a * this->y, a * this->z);
+}
+
 Dynamics::Vector Dynamics::Vector::operator*(const Dynamics::Vector &vector)const // cross product
 {
 	return Dynamics::Vector(this->y * vector.get_z() - this->z * vector.get_y(), this->z * vector.get_x() - this->x * vector.get_z(), this->x * vector.get_y() - this->y * vector.get_x());
@@ -120,6 +125,19 @@ double operator/(const Dynamics::Vector& vector, const Dynamics::Plane& plane) /
 double operator/(const Dynamics::Plane& plane, const Dynamics::Vector& vector) // angle between plane and vector
 {
 	return vector / plane;
+}
+
+Dynamics::Vector operator*(double a, const Dynamics::Vector& vector) // scalar multiplication of vector
+{
+	return vector * a;
+}
+
+Dynamics::Coordinates operator>(const Dynamics::Coordinates& point, const Dynamics::Plane& plane) // projection of point onto plane
+{
+	Dynamics::Vector n = plane.get_normal();
+	Dynamics::Vector qp = point - plane.get_point();
+	Dynamics::Vector normal = ((qp , n) / *n) * n;
+	return point - normal;
 }
 
 std::ostream& operator<<(std::ostream &ostream, const Dynamics::Vector &vector)

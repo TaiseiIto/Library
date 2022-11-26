@@ -26,6 +26,7 @@ namespace Dynamics
 		Vector operator-()const;
 		Vector operator+(const Vector &vector)const;
 		Vector operator-(const Vector &vector)const;
+		Vector operator*(double a)const; // scalar multiplication of vector
 		Vector operator*(const Vector &vector)const; // cross product
 		double operator,(const Vector &vector)const; // inner product
 		double operator/(const Vector &vector)const; // angle between vectors
@@ -52,6 +53,8 @@ namespace Dynamics
 
 double operator/(const Dynamics::Vector& vector, const Dynamics::Plane& plane); // angle between vector and plane
 double operator/(const Dynamics::Plane& plane, const Dynamics::Vector& vector); // angle between plane and vector
+Dynamics::Vector operator*(double a, const Dynamics::Vector& vector); // scalar multiplication of vector
+Dynamics::Coordinates operator>(const Dynamics::Coordinates& point, const Dynamics::Plane& plane); // projection of point onto plane
 std::ostream& operator<<(std::ostream &ostream, const Dynamics::Vector &vector);
 std::ostream& operator<<(std::ostream &ostream, const Dynamics::Plane &plane);
 
