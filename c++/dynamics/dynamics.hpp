@@ -49,6 +49,8 @@ namespace Dynamics
 	const unsigned int print_length = 10;
 }
 
+double operator/(const Dynamics::Vector& vector, const Dynamics::Plane& plane); // angle between vector and plane
+double operator/(const Dynamics::Plane& plane, const Dynamics::Vector& vector); // angle between plane and vector
 std::ostream& operator<<(std::ostream &ostream, const Dynamics::Vector &vector);
 std::ostream& operator<<(std::ostream &ostream, const Dynamics::Plane &plane);
 

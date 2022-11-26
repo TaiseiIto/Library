@@ -107,6 +107,16 @@ Dynamics::Vector Dynamics::Plane::get_normal()const
 	return normal;
 }
 
+double operator/(const Dynamics::Vector& vector, const Dynamics::Plane& plane) // angle between vector and plane
+{
+	return std::abs(M_PI / 2 - (vector ^ plane.get_normal()));
+}
+
+double operator/(const Dynamics::Plane& plane, const Dynamics::Vector& vector) // angle between plane and vector
+{
+	return vector / plane;
+}
+
 std::ostream& operator<<(std::ostream &ostream, const Dynamics::Vector &vector)
 {
 	ostream << "(" << std::setw(Dynamics::print_length) << vector.get_x() << "," << std::setw(Dynamics::print_length) << vector.get_y() << "," << std::setw(Dynamics::print_length) << vector.get_z() << ")";

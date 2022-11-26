@@ -18,6 +18,8 @@ int main(void)
 	std::cout << "!vector_a = " << !vector_a << std::endl;
 	std::cout << "*vector_a = " << *vector_a << std::endl;
 	std::cout << "plane_a = " << plane_a << std::endl;
+	std::cout << "vector_a / plane_a = " << (vector_a / plane_a) << std::endl;
+	std::cout << "plane_a / vector_a = " << (plane_a / vector_a) << std::endl;
 	return EXIT_SUCCESS;
 }
 
