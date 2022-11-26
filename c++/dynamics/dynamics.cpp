@@ -99,12 +99,17 @@ Dynamics::Plane::~Plane()
 
 Dynamics::Coordinates Dynamics::Plane::get_point()const
 {
-	return point;
+	return this->point;
 }
 
 Dynamics::Vector Dynamics::Plane::get_normal()const
 {
-	return normal;
+	return this->normal;
+}
+
+double Dynamics::Plane::operator/(const Plane &plane)const // angle between vectors
+{
+	return M_PI - (this->normal ^ plane.normal);
 }
 
 double operator/(const Dynamics::Vector& vector, const Dynamics::Plane& plane) // angle between vector and plane

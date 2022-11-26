@@ -45,6 +45,7 @@ namespace Dynamics
 		~Plane();
 		Coordinates get_point()const;
 		Vector get_normal()const;
+		double operator/(const Plane &plane)const; // angle between vectors
 	};
 	const unsigned int print_length = 10;
 }
