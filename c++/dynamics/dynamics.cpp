@@ -221,6 +221,11 @@ Dynamics::Posture::Posture(double roll, double pitch, double yaw): roll(0), pitc
 	this->set_front_up(front, up);
 }
 
+Dynamics::Posture::Posture(const Vector& front, const Vector& up): roll(0), pitch(0), yaw(0), front(0, 0, 0), left(0, 0, 0), up(0, 0, 0)
+{
+	set_front_up(front, up);
+}
+
 Dynamics::Posture::Posture(const Posture& posture): roll(posture.roll), pitch(posture.pitch), yaw(posture.yaw), front(posture.front), left(posture.left), up(posture.up)
 {
 }

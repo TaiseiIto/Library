@@ -69,6 +69,7 @@ namespace Dynamics
 		void set_front_up(const Vector& front, const Vector& up);
 	public:
 		Posture(double roll, double pitch, double yaw);
+		Posture(const Vector& front, const Vector& up);
 		Posture(const Posture& posture);
 		~Posture();
 		double get_roll()const;
