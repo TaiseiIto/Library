@@ -188,6 +188,11 @@ Dynamics::Posture::Posture(double roll, double pitch, double yaw): roll(roll), p
 	Dynamics::Vector rolled_up = z.rotate(x, this->roll);
 	if(0 < this->up.get_x())this->pitch = rolled_up / this->up;
 	else this->pitch = -(rolled_up / this->up);
+	// Adjust yaw
+	Dynamics::Vector rolled_left = y.rotate(x, this->roll);
+	Dynamics::Vector pitched_front = x.rotate(rolled_left, this->pitch);
+	if(rolled_left / this->front <= M_PI / 2)this->yaw = pitched_front / this->front;
+	else this->yaw = 2 * M_PI - (pitched_front / this->front);
 }
 
 Dynamics::Posture::Posture(const Posture& posture): roll(posture.roll), pitch(posture.pitch), yaw(posture.yaw), front(posture.front), left(posture.left), up(posture.up)
