@@ -314,6 +314,38 @@ Dynamics::Posture Dynamics::Posture::operator-()const // Reverse rotation
 	return Dynamics::Posture(reverse_front, reverse_up);
 }
 
+Dynamics::Posture Dynamics::Posture::operator+(const Dynamics::Posture& posture)const // Synthesize rotations
+{
+	Dynamics::Vector base_front(1, 0, 0);
+	Dynamics::Vector base_left(0, 1, 0);
+	Dynamics::Vector base_up(0, 0, 1);
+	Dynamics::Vector synthetic_front(this->front);
+	Dynamics::Vector synthetic_left(this->left);
+	Dynamics::Vector synthetic_up(this->up);
+	// Apply roll rotation
+	base_front = base_front.rotate(base_front, posture.roll);
+	base_left = base_left.rotate(base_front, posture.roll);
+	base_up = base_up.rotate(base_front, posture.roll);
+	synthetic_front = synthetic_front.rotate(base_front, posture.roll);
+	synthetic_left = synthetic_left.rotate(base_front, posture.roll);
+	synthetic_up = synthetic_up.rotate(base_front, posture.roll);
+	// Apply pitch rotation
+	base_front = base_front.rotate(base_left, posture.pitch);
+	base_left = base_left.rotate(base_left, posture.pitch);
+	base_up = base_up.rotate(base_left, posture.pitch);
+	synthetic_front = synthetic_front.rotate(base_left, posture.pitch);
+	synthetic_left = synthetic_left.rotate(base_left, posture.pitch);
+	synthetic_up = synthetic_up.rotate(base_left, posture.pitch);
+	// Apply yaw rotation
+	base_front = base_front.rotate(base_up, posture.yaw);
+	base_left = base_left.rotate(base_up, posture.yaw);
+	base_up = base_up.rotate(base_up, posture.yaw);
+	synthetic_front = synthetic_front.rotate(base_up, posture.yaw);
+	synthetic_left = synthetic_left.rotate(base_up, posture.yaw);
+	synthetic_up = synthetic_up.rotate(base_up, posture.yaw);
+	return Dynamics::Posture(synthetic_front, synthetic_up);
+}
+
 Dynamics::Vector operator*(double a, const Dynamics::Vector& vector) // Scalar multiplication of vector
 {
 	return vector * a;
