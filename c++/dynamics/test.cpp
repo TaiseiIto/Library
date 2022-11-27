@@ -39,6 +39,10 @@ int main(void)
 	std::cout << "posture_b = " << posture_b << std::endl;
 	std::cout << "-posture_a = " << -posture_a << std::endl;
 	std::cout << "-posture_a + posture_a = " << (-posture_a + posture_a) << std::endl;
+	std::cout << "posture_a - posture_a = " << (posture_a - posture_a) << std::endl;
+	std::cout << "posture_a - posture_b = " << (posture_a - posture_b) << std::endl;
+	std::cout << "posture_a - posture_b + posture_b = " << (posture_a - posture_b + posture_b) << std::endl;
+	std::cout << "posture_a - posture_b + posture_b - posture_a = " << (posture_a - posture_b + posture_b - posture_a) << std::endl;
 	return EXIT_SUCCESS;
 }
 

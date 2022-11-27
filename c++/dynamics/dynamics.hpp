@@ -55,7 +55,7 @@ namespace Dynamics
 		Coordinates get_point()const;
 		Vector get_normal()const;
 		Coordinates operator-(const Coordinates& point)const; // Normal from point to plane
-		double operator/(const Plane &plane)const; // Angle between vectors
+		double operator/(const Plane &plane)const; // Angle between planes
 		double operator/(const Dynamics::Vector& vector)const; // Angle between plane and vector
 	};
 	class Posture
@@ -81,8 +81,10 @@ namespace Dynamics
 		Vector get_right()const;
 		Vector get_up()const;
 		Vector get_down()const;
+		Posture operator+()const; // Identity map
 		Posture operator-()const; // Reverse rotation
 		Posture operator+(const Posture& posture)const; // Synthesize rotations
+		Posture operator-(const Posture& posture)const; // Synthesize reverse rotation
 	};
 	const double angle_error_limit = 2 * M_PI / 360;
 	const unsigned int print_length = 10;

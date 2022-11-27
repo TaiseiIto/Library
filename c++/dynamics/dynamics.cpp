@@ -152,7 +152,7 @@ Dynamics::Coordinates Dynamics::Plane::operator-(const Coordinates& point)const 
 	return point - *this;
 }
 
-double Dynamics::Plane::operator/(const Plane &plane)const // Angle between vectors
+double Dynamics::Plane::operator/(const Plane &plane)const // Angle between planes
 {
 	return M_PI - (this->normal / plane.normal);
 }
@@ -282,6 +282,11 @@ Dynamics::Vector Dynamics::Posture::get_down()const
 	return -this->up;
 }
 
+Dynamics::Posture Dynamics::Posture::operator+()const // Identity map
+{
+	return *this;
+}
+
 Dynamics::Posture Dynamics::Posture::operator-()const // Reverse rotation
 {
 	Dynamics::Vector this_front(this->front);
@@ -344,6 +349,11 @@ Dynamics::Posture Dynamics::Posture::operator+(const Dynamics::Posture& posture)
 	synthetic_left = synthetic_left.rotate(base_up, posture.yaw);
 	synthetic_up = synthetic_up.rotate(base_up, posture.yaw);
 	return Dynamics::Posture(synthetic_front, synthetic_up);
+}
+
+Dynamics::Posture Dynamics::Posture::operator-(const Dynamics::Posture& posture)const // Synthesize reverse rotation
+{
+	return *this + -posture;
 }
 
 Dynamics::Vector operator*(double a, const Dynamics::Vector& vector) // Scalar multiplication of vector
