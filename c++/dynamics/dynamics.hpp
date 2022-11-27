@@ -28,6 +28,7 @@ namespace Dynamics
 		Vector operator+(const Vector &vector)const;
 		Vector operator-(const Vector &vector)const;
 		Vector operator*(double a)const; // scalar multiplication of vector
+		Vector operator/(double a)const; // scalar division of vector
 		Vector operator*(const Vector &vector)const; // cross product
 		double operator,(const Vector &vector)const; // inner product
 		double operator/(const Vector &vector)const; // angle between vectors
@@ -35,6 +36,7 @@ namespace Dynamics
 		double operator!()const; // length
 		double operator*()const; // length ^ 2
 		Vector operator>>(const Plane& plane)const; // projection of vector onto plane
+		Vector rotate(const Vector& axis, double angle)const;
 	};
 	using Coordinates = Vector;
 	class Plane

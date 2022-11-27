@@ -54,6 +54,11 @@ Dynamics::Vector Dynamics::Vector::operator*(double a)const // scalar multiplica
 	return Dynamics::Vector(a * this->x, a * this->y, a * this->z);
 }
 
+Dynamics::Vector Dynamics::Vector::operator/(double a)const // scalar division of vector
+{
+	return *this * (1 / a);
+}
+
 Dynamics::Vector Dynamics::Vector::operator*(const Dynamics::Vector &vector)const // cross product
 {
 	return Dynamics::Vector(this->y * vector.get_z() - this->z * vector.get_y(), this->z * vector.get_x() - this->x * vector.get_z(), this->x * vector.get_y() - this->y * vector.get_x());
@@ -85,7 +90,7 @@ double Dynamics::Vector::operator!()const // length
 	return std::sqrt(**this);
 }
 
-double Dynamics::Vector::operator*()const // length / 2
+double Dynamics::Vector::operator*()const // length ^ 2
 {
 	return (*this, *this);
 }
@@ -93,6 +98,22 @@ double Dynamics::Vector::operator*()const // length / 2
 Dynamics::Vector Dynamics::Vector::operator>>(const Dynamics::Plane& plane)const // projection of vector onto plane
 {
 	return (*this > plane) - (Dynamics::Vector(0, 0, 0) > plane);
+}
+
+Dynamics::Vector Dynamics::Vector::rotate(const Dynamics::Vector& axis, double angle)const
+{
+	if(*axis == 0)
+	{
+		ERROR();
+		return Dynamics::Vector(0, 0, 0);
+	}
+	if(**this == 0)return *this;
+	Dynamics::Plane p(Dynamics::Vector(0, 0, 0), axis);
+	Dynamics::Vector v = *this >> p;
+	Dynamics::Vector w = *this - v;
+	Dynamics::Vector x = axis * v / !axis;
+	Dynamics::Vector y = std::cos(angle) * v + std::sin(angle) * x;
+	return w + y;
 }
 
 Dynamics::Plane::Plane(const Dynamics::Coordinates& point, const Dynamics::Vector& normal):point(point), normal(normal)
