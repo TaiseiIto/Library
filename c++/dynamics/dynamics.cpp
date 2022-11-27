@@ -210,14 +210,17 @@ Dynamics::Posture::Posture(double roll, double pitch, double yaw): roll(0), pitc
 	Dynamics::Coordinates left(0, 1, 0);
 	Dynamics::Coordinates up(0, 0, 1);
 	// Roll rotation
+	front = front.rotate(front, roll);
 	left = left.rotate(front, roll);
 	up = up.rotate(front, roll);
 	// Pitch rotation
 	front = front.rotate(left, pitch);
+	left = left.rotate(left, pitch);
 	up = up.rotate(left, pitch);
 	// Yaw rotation
 	front = front.rotate(up, yaw);
 	left = left.rotate(up, yaw);
+	up = up.rotate(up, yaw);
 	this->set_front_up(front, up);
 }
 
@@ -277,6 +280,38 @@ Dynamics::Vector Dynamics::Posture::get_up()const
 Dynamics::Vector Dynamics::Posture::get_down()const
 {
 	return -this->up;
+}
+
+Dynamics::Posture Dynamics::Posture::operator-()const // Reverse rotation
+{
+	Dynamics::Vector this_front(this->front);
+	Dynamics::Vector this_left(this->left);
+	Dynamics::Vector this_up(this->up);
+	Dynamics::Vector reverse_front(1, 0, 0);
+	Dynamics::Vector reverse_left(0, 1, 0);
+	Dynamics::Vector reverse_up(0, 0, 1);
+	// Release yaw rotation
+	this_front = this_front.rotate(this_up, -this->yaw);
+	this_left = this_left.rotate(this_up, -this->yaw);
+	this_up = this_up.rotate(this_up, -this->yaw);
+	reverse_front = reverse_front.rotate(this_up, -this->yaw);
+	reverse_left = reverse_left.rotate(this_up, -this->yaw);
+	reverse_up = reverse_up.rotate(this_up, -this->yaw);
+	// Release pitch rotation
+	this_front = this_front.rotate(this->left, -this->pitch);
+	this_left = this_left.rotate(this->left, -this->pitch);
+	this_up = this_up.rotate(this->left, -this->pitch);
+	reverse_front = reverse_front.rotate(this->left, -this->pitch);
+	reverse_left = reverse_left.rotate(this->left, -this->pitch);
+	reverse_up = reverse_up.rotate(this->left, -this->pitch);
+	// Release roll rotation
+	this_front = this_front.rotate(this->front, -this->roll);
+	this_left = this_left.rotate(this->front, -this->roll);
+	this_up = this_up.rotate(this->front, -this->roll);
+	reverse_front = reverse_front.rotate(this->front, -this->roll);
+	reverse_left = reverse_left.rotate(this->front, -this->roll);
+	reverse_up = reverse_up.rotate(this->front, -this->roll);
+	return Dynamics::Posture(reverse_front, reverse_up);
 }
 
 Dynamics::Vector operator*(double a, const Dynamics::Vector& vector) // Scalar multiplication of vector

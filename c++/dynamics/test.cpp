@@ -37,6 +37,7 @@ int main(void)
 	std::cout << "vector_c.rotate(plane_a.get_normal(), 2 * M_PI / 3) = " << vector_c.rotate(plane_a.get_normal(), 2 * M_PI / 3) << std::endl;
 	std::cout << "posture_a = " << posture_a << std::endl;
 	std::cout << "posture_b = " << posture_b << std::endl;
+	std::cout << "-posture_a = " << -posture_a << std::endl;
 	return EXIT_SUCCESS;
 }
 
