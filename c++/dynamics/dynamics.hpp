@@ -27,19 +27,19 @@ namespace Dynamics
 		Vector operator-()const;
 		Vector operator+(const Vector &vector)const;
 		Vector operator-(const Vector &vector)const;
-		Vector operator*(double a)const; // scalar multiplication of vector
-		Vector operator/(double a)const; // scalar division of vector
-		Vector operator*(const Vector &vector)const; // cross product
-		double operator,(const Vector &vector)const; // inner product
-		double operator/(const Vector &vector)const; // angle between vectors
-		double operator/(const Dynamics::Plane& plane)const; // angle between vector and plane
+		Vector operator*(double a)const; // Scalar multiplication of vector
+		Vector operator/(double a)const; // Scalar division of vector
+		Vector operator*(const Vector &vector)const; // Cross product
+		double operator,(const Vector &vector)const; // Inner product
+		double operator/(const Vector &vector)const; // Angle between vectors
+		double operator/(const Dynamics::Plane& plane)const; // Angle between vector and plane
 		double operator!()const; // length
 		double operator*()const; // length ^ 2
-		Vector operator>>(const Plane& plane)const; // projection of vector onto plane
+		Vector operator>>(const Plane& plane)const; // Projection of vector onto plane
 		// Vector rotation
 		// If the axis direction is forward and the angle is positive, rotate clockwise.
 		// If the axis direction is forward and the angle is negative, rotate counterclockwise.
-		Vector rotate(const Vector& axis, double angle)const;
+		Vector rotate(const Vector& axis, double angle/* radian */)const;
 	};
 	using Coordinates = Vector;
 	class Plane
@@ -54,18 +54,41 @@ namespace Dynamics
 		~Plane();
 		Coordinates get_point()const;
 		Vector get_normal()const;
-		Coordinates operator-(const Coordinates& point)const; // normal from point to plane
-		double operator/(const Plane &plane)const; // angle between vectors
-		double operator/(const Dynamics::Vector& vector)const; // angle between plane and vector
+		Coordinates operator-(const Coordinates& point)const; // Normal from point to plane
+		double operator/(const Plane &plane)const; // Angle between vectors
+		double operator/(const Dynamics::Vector& vector)const; // Angle between plane and vector
+	};
+	class Posture
+	{
+	private:
+		double roll, pitch, yaw; // radian
+		// -M_PI / 2 <= roll < M_PI / 2
+		// -M_PI <= pitch < M_PI
+		// 0 <= yaw < 2 * M_PI
+		Vector front, left, up;
+	public:
+		Posture(double roll, double pitch, double yaw);
+		Posture(const Posture& posture);
+		~Posture();
+		double get_roll()const;
+		double get_pitch()const;
+		double get_yaw()const;
+		Vector get_front()const;
+		Vector get_back()const;
+		Vector get_left()const;
+		Vector get_right()const;
+		Vector get_up()const;
+		Vector get_down()const;
 	};
 	const unsigned int print_length = 10;
 }
 
-Dynamics::Vector operator*(double a, const Dynamics::Vector& vector); // scalar multiplication of vector
-Dynamics::Coordinates operator-(const Dynamics::Coordinates& point, const Dynamics::Plane& plane); // normal from plane to point
-Dynamics::Coordinates operator>(const Dynamics::Coordinates& point, const Dynamics::Plane& plane); // projection of point onto plane
+Dynamics::Vector operator*(double a, const Dynamics::Vector& vector); // Scalar multiplication of vector
+Dynamics::Coordinates operator-(const Dynamics::Coordinates& point, const Dynamics::Plane& plane); // Normal from plane to point
+Dynamics::Coordinates operator>(const Dynamics::Coordinates& point, const Dynamics::Plane& plane); // Projection of point onto plane
 std::ostream& operator<<(std::ostream &ostream, const Dynamics::Vector &vector);
 std::ostream& operator<<(std::ostream &ostream, const Dynamics::Plane &plane);
+std::ostream& operator<<(std::ostream &ostream, const Dynamics::Posture &posture);
 
 #endif
 
