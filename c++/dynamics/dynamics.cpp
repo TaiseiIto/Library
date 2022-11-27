@@ -298,19 +298,19 @@ Dynamics::Posture Dynamics::Posture::operator-()const // Reverse rotation
 	reverse_left = reverse_left.rotate(this_up, -this->yaw);
 	reverse_up = reverse_up.rotate(this_up, -this->yaw);
 	// Release pitch rotation
-	this_front = this_front.rotate(this->left, -this->pitch);
-	this_left = this_left.rotate(this->left, -this->pitch);
-	this_up = this_up.rotate(this->left, -this->pitch);
-	reverse_front = reverse_front.rotate(this->left, -this->pitch);
-	reverse_left = reverse_left.rotate(this->left, -this->pitch);
-	reverse_up = reverse_up.rotate(this->left, -this->pitch);
+	this_front = this_front.rotate(this_left, -this->pitch);
+	this_left = this_left.rotate(this_left, -this->pitch);
+	this_up = this_up.rotate(this_left, -this->pitch);
+	reverse_front = reverse_front.rotate(this_left, -this->pitch);
+	reverse_left = reverse_left.rotate(this_left, -this->pitch);
+	reverse_up = reverse_up.rotate(this_left, -this->pitch);
 	// Release roll rotation
-	this_front = this_front.rotate(this->front, -this->roll);
-	this_left = this_left.rotate(this->front, -this->roll);
-	this_up = this_up.rotate(this->front, -this->roll);
-	reverse_front = reverse_front.rotate(this->front, -this->roll);
-	reverse_left = reverse_left.rotate(this->front, -this->roll);
-	reverse_up = reverse_up.rotate(this->front, -this->roll);
+	this_front = this_front.rotate(this_front, -this->roll);
+	this_left = this_left.rotate(this_front, -this->roll);
+	this_up = this_up.rotate(this_front, -this->roll);
+	reverse_front = reverse_front.rotate(this_front, -this->roll);
+	reverse_left = reverse_left.rotate(this_front, -this->roll);
+	reverse_up = reverse_up.rotate(this_front, -this->roll);
 	return Dynamics::Posture(reverse_front, reverse_up);
 }
 
