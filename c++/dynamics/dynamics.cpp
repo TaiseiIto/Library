@@ -162,17 +162,26 @@ double Dynamics::Plane::operator/(const Dynamics::Vector& vector)const // Angle 
 	return vector / *this;
 }
 
-Dynamics::Posture::Posture(double roll, double pitch, double yaw): roll(roll), pitch(pitch), yaw(yaw), front(Dynamics::Vector(1, 0, 0)), left(Dynamics::Vector(0, 1, 0)), up(Dynamics::Vector(0, 0, 1))
+void Dynamics::Posture::set_front_up(const Vector& front, const Vector& up)
 {
-	// Roll rotation
-	this->left = this->left.rotate(this->front, this->roll);
-	this->up = this->up.rotate(this->front, this->roll);
-	// Pitch rotation
-	this->front = this->front.rotate(this->left, this->pitch);
-	this->up = this->up.rotate(this->left, this->pitch);
-	// Yaw rotation
-	this->front = this->front.rotate(this->up, this->yaw);
-	this->left = this->left.rotate(this->up, this->yaw);
+	if(*front == 0)
+	{
+		ERROR();
+		return;
+	}
+	if(*up == 0)
+	{
+		ERROR();
+		return;
+	}
+	if(Dynamics::angle_error_limit <= std::abs(M_PI / 2 - (front / up)))
+	{
+		ERROR();
+		return;
+	}
+	this->front = front / !front;
+	this->up = up / !up;
+	this->left = up * front;
 	// Adjust roll
 	Dynamics::Coordinates o(0, 0, 0);
 	Dynamics::Coordinates x(1, 0, 0);
@@ -193,6 +202,23 @@ Dynamics::Posture::Posture(double roll, double pitch, double yaw): roll(roll), p
 	Dynamics::Vector pitched_front = x.rotate(rolled_left, this->pitch);
 	if(rolled_left / this->front <= M_PI / 2)this->yaw = pitched_front / this->front;
 	else this->yaw = 2 * M_PI - (pitched_front / this->front);
+}
+
+Dynamics::Posture::Posture(double roll, double pitch, double yaw): roll(0), pitch(0), yaw(0), front(0, 0, 0), left(0, 0, 0), up(0, 0, 0)
+{
+	Dynamics::Coordinates front(1, 0, 0);
+	Dynamics::Coordinates left(0, 1, 0);
+	Dynamics::Coordinates up(0, 0, 1);
+	// Roll rotation
+	left = left.rotate(front, roll);
+	up = up.rotate(front, roll);
+	// Pitch rotation
+	front = front.rotate(left, pitch);
+	up = up.rotate(left, pitch);
+	// Yaw rotation
+	front = front.rotate(up, yaw);
+	left = left.rotate(up, yaw);
+	this->set_front_up(front, up);
 }
 
 Dynamics::Posture::Posture(const Posture& posture): roll(posture.roll), pitch(posture.pitch), yaw(posture.yaw), front(posture.front), left(posture.left), up(posture.up)

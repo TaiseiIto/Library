@@ -66,6 +66,7 @@ namespace Dynamics
 		// -M_PI <= pitch < M_PI
 		// 0 <= yaw < 2 * M_PI
 		Vector front, left, up;
+		void set_front_up(const Vector& front, const Vector& up);
 	public:
 		Posture(double roll, double pitch, double yaw);
 		Posture(const Posture& posture);
@@ -80,6 +81,7 @@ namespace Dynamics
 		Vector get_up()const;
 		Vector get_down()const;
 	};
+	const double angle_error_limit = 2 * M_PI / 360;
 	const unsigned int print_length = 10;
 }
 
