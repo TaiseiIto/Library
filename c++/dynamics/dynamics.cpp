@@ -100,6 +100,9 @@ Dynamics::Vector Dynamics::Vector::operator>>(const Dynamics::Plane& plane)const
 	return (*this > plane) - (Dynamics::Vector(0, 0, 0) > plane);
 }
 
+// Vector rotation
+// If the axis direction is forward and the angle is positive, rotate clockwise.
+// If the axis direction is forward and the angle is negative, rotate counterclockwise.
 Dynamics::Vector Dynamics::Vector::rotate(const Dynamics::Vector& axis, double angle)const
 {
 	if(*axis == 0)

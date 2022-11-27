@@ -36,6 +36,9 @@ namespace Dynamics
 		double operator!()const; // length
 		double operator*()const; // length ^ 2
 		Vector operator>>(const Plane& plane)const; // projection of vector onto plane
+		// Vector rotation
+		// If the axis direction is forward and the angle is positive, rotate clockwise.
+		// If the axis direction is forward and the angle is negative, rotate counterclockwise.
 		Vector rotate(const Vector& axis, double angle)const;
 	};
 	using Coordinates = Vector;
