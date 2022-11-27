@@ -164,25 +164,6 @@ double Dynamics::Plane::operator/(const Dynamics::Vector& vector)const // Angle 
 
 Dynamics::Posture::Posture(double roll, double pitch, double yaw): roll(roll), pitch(pitch), yaw(yaw), front(Dynamics::Vector(1, 0, 0)), left(Dynamics::Vector(0, 1, 0)), up(Dynamics::Vector(0, 0, 1))
 {
-	// Adjust this->roll
-	this->roll += M_PI;
-	this->roll -= 2 * M_PI * std::floor(this->roll / (2 * M_PI));
-	this->roll -= M_PI;
-	if(this->roll < -M_PI / 2 || M_PI / 2 <= this->roll)
-	{
-		this->roll += M_PI;
-		this->pitch += M_PI;
-		this->yaw += M_PI;
-		this->roll += M_PI;
-		this->roll -= 2 * M_PI * std::floor(this->roll / (2 * M_PI));
-		this->roll -= M_PI;
-	}
-	// Adjust this->pitch
-	this->pitch += M_PI;
-	this->pitch -= 2 * M_PI * std::floor(this->pitch / (2 * M_PI));
-	this->pitch -= M_PI;
-	// Adjust this->yaw
-	this->yaw -= 2 * M_PI * std::floor(this->yaw / (2 * M_PI));
 	// Roll rotation
 	this->left = this->left.rotate(this->front, this->roll);
 	this->up = this->up.rotate(this->front, this->roll);
@@ -192,6 +173,15 @@ Dynamics::Posture::Posture(double roll, double pitch, double yaw): roll(roll), p
 	// Yaw rotation
 	this->front = this->front.rotate(this->up, this->yaw);
 	this->left = this->left.rotate(this->up, this->yaw);
+	// Adjust roll
+	Dynamics::Coordinates o(0, 0, 0);
+	Dynamics::Coordinates x(1, 0, 0);
+	Dynamics::Coordinates y(0, 1, 0);
+	Dynamics::Coordinates z(0, 0, 1);
+	Dynamics::Plane front_back_separator(o, y, z);
+	Dynamics::Plane left_right_separator(x, o, z);
+	Dynamics::Vector up_projection = this->up >> front_back_separator;
+	this->roll = *up_projection ? up_projection / left_right_separator : 0;
 }
 
 Dynamics::Posture::Posture(const Posture& posture): roll(posture.roll), pitch(posture.pitch), yaw(posture.yaw), front(posture.front), left(posture.left), up(posture.up)
