@@ -181,7 +181,8 @@ Dynamics::Posture::Posture(double roll, double pitch, double yaw): roll(roll), p
 	Dynamics::Plane front_back_separator(o, y, z);
 	Dynamics::Plane left_right_separator(x, o, z);
 	Dynamics::Vector up_projection = this->up >> front_back_separator;
-	this->roll = *up_projection ? up_projection / left_right_separator : 0;
+	if(up_projection.get_y() == 0)this->roll = 0;
+	else if(up_projection.get_y() * up_projection.get_z() < 0)this->roll = up_projection / left_right_separator;
 }
 
 Dynamics::Posture::Posture(const Posture& posture): roll(posture.roll), pitch(posture.pitch), yaw(posture.yaw), front(posture.front), left(posture.left), up(posture.up)
