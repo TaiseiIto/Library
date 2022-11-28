@@ -12,6 +12,8 @@ int main(void)
 	Dynamics::Plane plane_b(Dynamics::Coordinates(1, 2, 3), Dynamics::Coordinates(4, 5, 6), Dynamics::Coordinates(9, 8, 7));
 	Dynamics::Posture posture_a(4, 5, 6);
 	Dynamics::Posture posture_b(vector_a, vector_d);
+	Dynamics::State state_a(vector_a, posture_a);
+	Dynamics::State state_b(1, 2, 3, 4, 5, 6);
 	std::cout << "vector_a = " << vector_a << std::endl;
 	std::cout << "vector_b = " << vector_b << std::endl;
 	std::cout << "vector_c = " << vector_c << std::endl;
@@ -43,6 +45,8 @@ int main(void)
 	std::cout << "posture_a - posture_b = " << (posture_a - posture_b) << std::endl;
 	std::cout << "posture_a - posture_b + posture_b = " << (posture_a - posture_b + posture_b) << std::endl;
 	std::cout << "posture_a - posture_b + posture_b - posture_a = " << (posture_a - posture_b + posture_b - posture_a) << std::endl;
+	std::cout << "state_a = " << state_a << std::endl;
+	std::cout << "state_b = " << state_b << std::endl;
 	return EXIT_SUCCESS;
 }
 

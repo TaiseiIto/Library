@@ -356,6 +356,32 @@ Dynamics::Posture Dynamics::Posture::operator-(const Dynamics::Posture& posture)
 	return *this + -posture;
 }
 
+Dynamics::State::State(const Dynamics::Coordinates& coordinates, const Dynamics::Posture& posture):coordinates(coordinates), posture(posture)
+{
+}
+
+Dynamics::State::State(double x, double y, double z, double roll, double pitch, double yaw):coordinates(x, y, z), posture(roll, pitch, yaw)
+{
+}
+
+Dynamics::State::State(const State& state):coordinates(state.coordinates), posture(state.posture)
+{
+}
+
+Dynamics::State::~State()
+{
+}
+
+Dynamics::Coordinates Dynamics::State::get_coordinates()const
+{
+	return coordinates;
+}
+
+Dynamics::Posture Dynamics::State::get_posture()const
+{
+	return posture;
+}
+
 Dynamics::Vector operator*(double a, const Dynamics::Vector& vector) // Scalar multiplication of vector
 {
 	return vector * a;
@@ -388,6 +414,12 @@ std::ostream& operator<<(std::ostream &ostream, const Dynamics::Plane &plane)
 std::ostream& operator<<(std::ostream &ostream, const Dynamics::Posture &posture)
 {
 	ostream << "(roll = " << posture.get_roll() << ", pitch = " << posture.get_pitch() << ", yaw = " << posture.get_yaw() << ")";
+	return ostream;
+}
+
+std::ostream& operator<<(std::ostream &ostream, const Dynamics::State &state)
+{
+	ostream << "(coordinates = " << state.get_coordinates() << ", posture = " << state.get_posture() << ")";
 	return ostream;
 }
 

@@ -86,6 +86,19 @@ namespace Dynamics
 		Posture operator+(const Posture& posture)const; // Synthesize rotations
 		Posture operator-(const Posture& posture)const; // Synthesize reverse rotation
 	};
+	class State
+	{
+	private:
+		Coordinates coordinates;
+		Posture posture;
+	public:
+		State(const Coordinates& coordinates, const Posture& posture);
+		State(double x, double y, double z, double roll, double pitch, double yaw);
+		State(const State& state);
+		~State();
+		Coordinates get_coordinates()const;
+		Posture get_posture()const;
+	};
 	const double angle_error_limit = 2 * M_PI / 360;
 	const unsigned int print_length = 10;
 }
@@ -96,6 +109,7 @@ Dynamics::Coordinates operator>(const Dynamics::Coordinates& point, const Dynami
 std::ostream& operator<<(std::ostream &ostream, const Dynamics::Vector &vector);
 std::ostream& operator<<(std::ostream &ostream, const Dynamics::Plane &plane);
 std::ostream& operator<<(std::ostream &ostream, const Dynamics::Posture &posture);
+std::ostream& operator<<(std::ostream &ostream, const Dynamics::State &state);
 
 #endif
 
