@@ -13,7 +13,9 @@ int main(void)
 	Dynamics::Posture posture_a(4, 5, 6);
 	Dynamics::Posture posture_b(vector_a, vector_d);
 	Dynamics::State state_a(vector_a, posture_a);
-	Dynamics::State state_b(1, 2, 3, 4, 5, 6);
+	Dynamics::State state_b(6, 5, 4, 3, 2, 1);
+	Dynamics::State state_c = state_b.to_absolute(state_a);
+	Dynamics::State state_d = state_c.to_relative(state_a);
 	std::cout << "vector_a = " << vector_a << std::endl;
 	std::cout << "vector_b = " << vector_b << std::endl;
 	std::cout << "vector_c = " << vector_c << std::endl;
@@ -47,6 +49,8 @@ int main(void)
 	std::cout << "posture_a - posture_b + posture_b - posture_a = " << (posture_a - posture_b + posture_b - posture_a) << std::endl;
 	std::cout << "state_a = " << state_a << std::endl;
 	std::cout << "state_b = " << state_b << std::endl;
+	std::cout << "state_c = " << state_c << std::endl;
+	std::cout << "state_d = " << state_d << std::endl;
 	std::cout << "-state_a = " << -state_a << std::endl;
 	std::cout << "state_a + state_b = " << state_a + state_b << std::endl;
 	std::cout << "state_a - state_b = " << state_a - state_b << std::endl;

@@ -103,6 +103,8 @@ namespace Dynamics
 		State operator-()const; // Reverse state
 		State operator+(const State& state)const; // Synthesize states
 		State operator-(const State& state)const; // Synthesize reverse states
+		State to_absolute(const State& viewpoint)const;
+		State to_relative(const State& viewpoint)const;
 	};
 	const double angle_error_limit = 2 * M_PI / 360;
 	const unsigned int print_length = 10;

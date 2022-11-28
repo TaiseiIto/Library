@@ -426,6 +426,16 @@ Dynamics::State Dynamics::State::operator-(const Dynamics::State& state)const //
 	return *this + -state;
 }
 
+Dynamics::State Dynamics::State::to_absolute(const State& viewpoint)const
+{
+	return viewpoint + *this;
+}
+
+Dynamics::State Dynamics::State::to_relative(const State& viewpoint)const
+{
+	return -viewpoint + *this;
+}
+
 Dynamics::Vector operator*(double a, const Dynamics::Vector& vector) // Scalar multiplication of vector
 {
 	return vector * a;
