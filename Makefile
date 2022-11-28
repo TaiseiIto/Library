@@ -17,8 +17,10 @@ DOCKER_IMAGE_TAG = latest
 DOCKER_CONTAINER = library
 DOCKER_CONTAINER_SHELL = /bin/sh
 
+LANGUAGES = c++ hasskell
+
 all:
-	make -C c++
+	for i in $(LANGUAGES); do make -C $$(i); done
 
 # Clean docker environment
 clean-devenv:
