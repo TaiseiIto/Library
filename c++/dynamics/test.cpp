@@ -48,6 +48,8 @@ int main(void)
 	std::cout << "state_a = " << state_a << std::endl;
 	std::cout << "state_b = " << state_b << std::endl;
 	std::cout << "-state_a = " << -state_a << std::endl;
+	std::cout << "state_a + state_b = " << state_a + state_b << std::endl;
+	std::cout << "state_a - state_b = " << state_a - state_b << std::endl;
 	return EXIT_SUCCESS;
 }
 

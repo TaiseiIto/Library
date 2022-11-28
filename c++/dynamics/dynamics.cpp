@@ -377,7 +377,7 @@ Dynamics::Vector Dynamics::Posture::operator*(const Dynamics::Vector& vector)con
 	base_left = base_left.rotate(base_up, this->yaw);
 	base_up = base_up.rotate(base_up, this->yaw);
 	rotated_vector = rotated_vector.rotate(base_up, this->yaw);
-	return vector;
+	return rotated_vector;
 }
 
 Dynamics::State::State(const Dynamics::Coordinates& coordinates, const Dynamics::Posture& posture):coordinates(coordinates), posture(posture)
@@ -414,6 +414,16 @@ Dynamics::State Dynamics::State::operator+()const // Identity map
 Dynamics::State Dynamics::State::operator-()const // Reverse state
 {
 	return Dynamics::State((-this->posture) * (-this->coordinates), -this->posture);
+}
+
+Dynamics::State Dynamics::State::operator+(const Dynamics::State& state)const // Synthesize states
+{
+	return Dynamics::State(this->coordinates + (this->posture * state.coordinates), state.posture + this->posture);
+}
+
+Dynamics::State Dynamics::State::operator-(const Dynamics::State& state)const // Synthesize reverse states
+{
+	return *this + -state;
 }
 
 Dynamics::Vector operator*(double a, const Dynamics::Vector& vector) // Scalar multiplication of vector

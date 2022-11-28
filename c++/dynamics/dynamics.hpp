@@ -101,6 +101,8 @@ namespace Dynamics
 		Posture get_posture()const;
 		State operator+()const; // Identity map
 		State operator-()const; // Reverse state
+		State operator+(const State& state)const; // Synthesize states
+		State operator-(const State& state)const; // Synthesize reverse states
 	};
 	const double angle_error_limit = 2 * M_PI / 360;
 	const unsigned int print_length = 10;
