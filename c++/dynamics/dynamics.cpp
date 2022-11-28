@@ -356,6 +356,30 @@ Dynamics::Posture Dynamics::Posture::operator-(const Dynamics::Posture& posture)
 	return *this + -posture;
 }
 
+Dynamics::Vector Dynamics::Posture::operator*(const Dynamics::Vector& vector)const // Apply rotation to vector
+{
+	Dynamics::Vector base_front(1, 0, 0);
+	Dynamics::Vector base_left(0, 1, 0);
+	Dynamics::Vector base_up(0, 0, 1);
+	Dynamics::Vector rotated_vector = vector;
+	// Apply roll rotation
+	base_front = base_front.rotate(base_front, this->roll);
+	base_left = base_left.rotate(base_front, this->roll);
+	base_up = base_up.rotate(base_front, this->roll);
+	rotated_vector = rotated_vector.rotate(base_front, this->roll);
+	// Apply pitch rotation
+	base_front = base_front.rotate(base_left, this->pitch);
+	base_left = base_left.rotate(base_left, this->pitch);
+	base_up = base_up.rotate(base_left, this->pitch);
+	rotated_vector = rotated_vector.rotate(base_left, this->pitch);
+	// Apply yaw rotation
+	base_front = base_front.rotate(base_up, this->yaw);
+	base_left = base_left.rotate(base_up, this->yaw);
+	base_up = base_up.rotate(base_up, this->yaw);
+	rotated_vector = rotated_vector.rotate(base_up, this->yaw);
+	return vector;
+}
+
 Dynamics::State::State(const Dynamics::Coordinates& coordinates, const Dynamics::Posture& posture):coordinates(coordinates), posture(posture)
 {
 }
@@ -380,6 +404,16 @@ Dynamics::Coordinates Dynamics::State::get_coordinates()const
 Dynamics::Posture Dynamics::State::get_posture()const
 {
 	return posture;
+}
+
+Dynamics::State Dynamics::State::operator+()const // Identity map
+{
+	return *this;
+}
+
+Dynamics::State Dynamics::State::operator-()const // Reverse state
+{
+	return Dynamics::State((-this->posture) * (-this->coordinates), -this->posture);
 }
 
 Dynamics::Vector operator*(double a, const Dynamics::Vector& vector) // Scalar multiplication of vector

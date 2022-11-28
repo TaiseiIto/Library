@@ -47,6 +47,7 @@ int main(void)
 	std::cout << "posture_a - posture_b + posture_b - posture_a = " << (posture_a - posture_b + posture_b - posture_a) << std::endl;
 	std::cout << "state_a = " << state_a << std::endl;
 	std::cout << "state_b = " << state_b << std::endl;
+	std::cout << "-state_a = " << -state_a << std::endl;
 	return EXIT_SUCCESS;
 }
 

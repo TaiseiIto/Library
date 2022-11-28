@@ -85,6 +85,7 @@ namespace Dynamics
 		Posture operator-()const; // Reverse rotation
 		Posture operator+(const Posture& posture)const; // Synthesize rotations
 		Posture operator-(const Posture& posture)const; // Synthesize reverse rotation
+		Vector operator*(const Vector& vector)const; // Apply rotation to vector
 	};
 	class State
 	{
@@ -98,6 +99,8 @@ namespace Dynamics
 		~State();
 		Coordinates get_coordinates()const;
 		Posture get_posture()const;
+		State operator+()const; // Identity map
+		State operator-()const; // Reverse state
 	};
 	const double angle_error_limit = 2 * M_PI / 360;
 	const unsigned int print_length = 10;
