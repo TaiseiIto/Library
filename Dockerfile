@@ -10,6 +10,8 @@ RUN apt install git -y
 RUN apt install git-email -y
 RUN git config --global pull.rebase false
 RUN mkdir /root/.ssh
+# haskell
+RUN apt install haskell-platform
 # tmux
 RUN apt install tmux -y
 # tzdata
