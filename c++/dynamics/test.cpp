@@ -52,8 +52,26 @@ int main(void)
 	std::cout << "state_c = " << state_c << std::endl;
 	std::cout << "state_d = " << state_d << std::endl;
 	std::cout << "-state_a = " << -state_a << std::endl;
+	std::cout << "state_a - state_a = " << state_a - state_a << std::endl;
 	std::cout << "state_a + state_b = " << state_a + state_b << std::endl;
 	std::cout << "state_a - state_b = " << state_a - state_b << std::endl;
+	// Face each other test
+	Dynamics::Coordinates a_position(0, 0, 0);
+	Dynamics::Vector a_front(1, 1, 1);
+	Dynamics::Vector a_left(-1, 1, 0);
+	Dynamics::Vector a_up = a_front * a_left;
+	Dynamics::Posture a_posture(a_front, a_up);
+	Dynamics::State a_state(a_position, a_posture);
+	Dynamics::Coordinates b_position(1, 1, 1);
+	Dynamics::Vector b_front(-1, -1, -1);
+	Dynamics::Vector b_left(1, -1, 0);
+	Dynamics::Vector b_up = b_front * b_left;
+	Dynamics::Posture b_posture(b_front, b_up);
+	Dynamics::State b_state(b_position, b_posture);
+	std::cout << "a_state = " << a_state << std::endl;
+	std::cout << "b_state = " << b_state << std::endl;
+	std::cout << "a_state.to_relative(a_state) = " << a_state.to_relative(a_state) << std::endl;
+	std::cout << "b_state.to_relative(a_state) = " << b_state.to_relative(a_state) << std::endl;
 	return EXIT_SUCCESS;
 }
 
