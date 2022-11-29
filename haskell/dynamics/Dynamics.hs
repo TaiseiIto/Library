@@ -1,7 +1,18 @@
-{-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS -Wall -Werror #-}
 
-module Dynamics (Vector(Vector), veclen, vecarg, Coordinates, coordinates, Plane(Plane), plane) where
+module Dynamics
+(
+ Vector(Vector),
+ veclen,
+ vecarg,
+ Coordinates,
+ coordinates,
+ Plane(Plane),
+ plane,
+ planearg,
+ vecplanearg,
+ planevecarg,
+) where
 
 data Vector = Vector {x :: Float, y :: Float, z :: Float}
 
@@ -39,6 +50,15 @@ data Plane = Plane {point :: Coordinates, normal :: Vector}
 
 plane :: Coordinates -> Coordinates -> Coordinates -> Plane
 plane p q r = Plane p $ (q - p) * (r - p)
+
+planearg :: Plane -> Plane -> Float
+planearg p q = pi - vecarg (normal p) (normal q)
+
+vecplanearg :: Vector -> Plane -> Float
+vecplanearg v = abs . (pi / 2 -) . vecarg v . normal
+
+planevecarg :: Plane -> Vector -> Float
+planevecarg = flip vecplanearg
 
 instance Show Plane
  where
