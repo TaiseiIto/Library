@@ -3,6 +3,9 @@
 module Dynamics
 (
  Vector(Vector),
+ x,
+ y,
+ z,
  Coordinates,
  coordinates,
  (<=>),
@@ -10,8 +13,11 @@ module Dynamics
  vector_length,
  vector_angle,
  Plane(Plane),
+ point,
+ normal,
  (<-|),
  (->|),
+ (=>|),
  plane,
  plane_angle,
  vector_plane_angle,
@@ -75,6 +81,11 @@ c <-| p =
 infixl 7 ->|
 (->|) :: Coordinates -> Plane -> Coordinates
 c ->| p = c - c <-| p
+
+-- Projection of vector onto plane
+infixl 7 =>|
+(=>|) :: Vector -> Plane -> Vector
+v =>| p = v ->| p - (Vector 0 0 0) ->| p
 
 plane :: Coordinates -> Coordinates -> Coordinates -> Plane
 plane p q r = Plane p $ (q - p) * (r - p)
