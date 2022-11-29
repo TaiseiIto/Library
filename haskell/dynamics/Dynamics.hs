@@ -8,7 +8,7 @@ module Dynamics
  z,
  Coordinates,
  coordinates,
- (<=>),
+ (<=<=),
  (.*),
  vector_length,
  vector_angle,
@@ -34,9 +34,9 @@ coordinates :: Double -> Double -> Double -> Coordinates
 coordinates = Vector
 
 -- Scalar multiplication of vector
-infixl 7 <=>
-(<=>) :: Double -> Vector -> Vector
-f <=> v = Vector (f * x v) (f * y v) (f * z v)
+infixl 7 <=<=
+(<=<=) :: Double -> Vector -> Vector
+f <=<= v = Vector (f * x v) (f * y v) (f * z v)
 
 -- Inner product of 2 vectors
 infixl 8 .*
@@ -75,7 +75,7 @@ c <-| p =
   n = normal p
   d = c - point p
  in
-  (d .* n / n .* n) <=> n
+  (d .* n / n .* n) <=<= n
 
 -- Projection of point onto plane
 infixl 7 ->|
