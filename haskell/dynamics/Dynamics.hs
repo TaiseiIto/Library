@@ -1,8 +1,14 @@
+{-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS -Wall -Werror #-}
 
-module Dynamics where
+module Dynamics (Vector(Vector), veclen, vecarg, Coordinates, coordinates, Plane(Plane), plane) where
 
 data Vector = Vector {x :: Float, y :: Float, z :: Float}
+
+type Coordinates = Vector
+
+coordinates :: Float -> Float -> Float -> Coordinates
+coordinates = Vector
 
 infixl 7 .*
 (.*) :: Vector -> Vector -> Float
@@ -28,4 +34,13 @@ instance Num Vector
 instance Show Vector
  where
   show v = "(x = " ++ (show . x $ v) ++ ", y = " ++ (show . y $ v) ++ ", z = " ++ (show . z $ v) ++ ")"
+
+data Plane = Plane {point :: Coordinates, normal :: Vector}
+
+plane :: Coordinates -> Coordinates -> Coordinates -> Plane
+plane p q r = Plane p $ (q - p) * (r - p)
+
+instance Show Plane
+ where
+  show p = "(point " ++ (show . point $ p) ++ ", normal = " ++ (show . normal $ p) ++ ")"
 
