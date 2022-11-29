@@ -26,27 +26,27 @@ module Dynamics
 
 import qualified Control.Monad
 
-data Vector = Vector {x :: Float, y :: Float, z :: Float}
+data Vector = Vector {x :: Double, y :: Double, z :: Double}
 
 type Coordinates = Vector
 
-coordinates :: Float -> Float -> Float -> Coordinates
+coordinates :: Double -> Double -> Double -> Coordinates
 coordinates = Vector
 
 -- Scalar multiplication of vector
 infixl 7 <=>
-(<=>) :: Float -> Vector -> Vector
+(<=>) :: Double -> Vector -> Vector
 f <=> v = Vector (f * x v) (f * y v) (f * z v)
 
 -- Inner product of 2 vectors
 infixl 8 .*
-(.*) :: Vector -> Vector -> Float
+(.*) :: Vector -> Vector -> Double
 v .* w = x v * x w + y v * y w + z v * z w
 
-vector_length :: Vector -> Float
+vector_length :: Vector -> Double
 vector_length = sqrt . Control.Monad.join (.*)
 
-vector_angle :: Vector -> Vector -> Float
+vector_angle :: Vector -> Vector -> Double
 vector_angle v w = acos $ v .* w / (vector_length v * vector_length w)
 
 instance Num Vector
@@ -59,7 +59,7 @@ instance Num Vector
   abs v =  Vector (vector_length v) 0 0
   signum (Vector 0 0 0) = Vector 0 0 0
   signum v = Vector (x v / vector_length v) (y v / vector_length v) (z v / vector_length v)
-  fromInteger i = Vector ((fromInteger :: Integer -> Float) i) 0 0
+  fromInteger i = Vector ((fromInteger :: Integer -> Double) i) 0 0
 
 instance Show Vector
  where
@@ -90,13 +90,13 @@ v =>| p = v ->| p - (Vector 0 0 0) ->| p
 plane :: Coordinates -> Coordinates -> Coordinates -> Plane
 plane p q r = Plane p $ (q - p) * (r - p)
 
-plane_angle :: Plane -> Plane -> Float
+plane_angle :: Plane -> Plane -> Double
 plane_angle p q = pi - vector_angle (normal p) (normal q)
 
-vector_plane_angle :: Vector -> Plane -> Float
+vector_plane_angle :: Vector -> Plane -> Double
 vector_plane_angle v = abs . (pi / 2 -) . vector_angle v . normal
 
-plane_vector_angle :: Plane -> Vector -> Float
+plane_vector_angle :: Plane -> Vector -> Double
 plane_vector_angle = flip vector_plane_angle
 
 instance Show Plane
