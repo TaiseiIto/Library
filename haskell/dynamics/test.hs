@@ -30,4 +30,5 @@ main =
   putStrLn . ("vector_length $ vector_a ->| plane_a <-| plane_a = " ++) . show . vector_length $ vector_a ->| plane_a <-| plane_a
   putStrLn . ("vector_angle (normal plane_a) $ vector_a - vector_a ->| plane_a = " ++) . show . vector_angle (normal plane_a) $ vector_a - vector_a ->| plane_a
   putStrLn . ("vector_a =>| plane_a = " ++) . show $ vector_a =>| plane_a
+  putStrLn . ("plane_vector_angle plane_a $ vector_a =>| plane_a = " ++) . show . plane_vector_angle plane_a $ vector_a =>| plane_a
 
