@@ -4,12 +4,15 @@ module Dynamics where
 
 data Vector = Vector {x :: Float, y :: Float, z :: Float}
 
-infix 7 .*
+infixl 7 .*
 (.*) :: Vector -> Vector -> Float
 v .* w = x v * x w + y v * y w + z v * z w
 
 veclen :: Vector -> Float
 veclen v = sqrt $ v .* v
+
+vecarg :: Vector -> Vector -> Float
+vecarg v w = acos $ v .* w / (veclen v * veclen w)
 
 instance Num Vector
  where
