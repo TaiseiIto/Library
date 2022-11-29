@@ -3,11 +3,15 @@
 module Dynamics
 (
  Vector(Vector),
- vector_length,
- vector_angle,
  Coordinates,
  coordinates,
+ (<=>),
+ (.*),
+ vector_length,
+ vector_angle,
  Plane(Plane),
+ (<-|),
+ (->|),
  plane,
  plane_angle,
  vector_plane_angle,
@@ -23,8 +27,13 @@ type Coordinates = Vector
 coordinates :: Float -> Float -> Float -> Coordinates
 coordinates = Vector
 
+-- Scalar multiplication of vector
+infixl 7 <=>
+(<=>) :: Float -> Vector -> Vector
+f <=> v = Vector (f * x v) (f * y v) (f * z v)
+
 -- Inner product of 2 vectors
-infixl 7 .*
+infixl 8 .*
 (.*) :: Vector -> Vector -> Float
 v .* w = x v * x w + y v * y w + z v * z w
 
@@ -51,6 +60,21 @@ instance Show Vector
   show v = "(x = " ++ (show . x $ v) ++ ", y = " ++ (show . y $ v) ++ ", z = " ++ (show . z $ v) ++ ")"
 
 data Plane = Plane {point :: Coordinates, normal :: Vector}
+
+-- Normal from plane to point
+infixl 7 <-|
+(<-|) :: Coordinates -> Plane -> Coordinates
+c <-| p =
+ let
+  n = normal p
+  d = c - point p
+ in
+  (d .* n / n .* n) <=> n
+
+-- Projection of point onto plane
+infixl 7 ->|
+(->|) :: Coordinates -> Plane -> Coordinates
+c ->| p = c - c <-| p
 
 plane :: Coordinates -> Coordinates -> Coordinates -> Plane
 plane p q r = Plane p $ (q - p) * (r - p)

@@ -26,4 +26,5 @@ main =
   putStrLn . ("Dynamics.plane_vector_angle plane_a vector_a = " ++) . show $ Dynamics.plane_vector_angle plane_a vector_a
   putStrLn . ("Dynamics.vector_plane_angle vector_a plane_a = " ++) . show $ Dynamics.vector_plane_angle vector_a plane_a
   putStrLn . ("Dynamics.plane_angle plane_a plane_b = " ++) . show $ Dynamics.plane_angle plane_a plane_b
+  putStrLn . ("vector_a Dynamics.->| plane_a = " ++) . show $ vector_a Dynamics.->| plane_a
 
