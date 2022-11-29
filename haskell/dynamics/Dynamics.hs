@@ -3,15 +3,15 @@
 module Dynamics
 (
  Vector(Vector),
- veclen,
- vecarg,
+ vector_length,
+ vector_angle,
  Coordinates,
  coordinates,
  Plane(Plane),
  plane,
- planearg,
- vecplanearg,
- planevecarg,
+ plane_angle,
+ vector_plane_angle,
+ plane_vector_angle,
 ) where
 
 data Vector = Vector {x :: Float, y :: Float, z :: Float}
@@ -25,11 +25,11 @@ infixl 7 .*
 (.*) :: Vector -> Vector -> Float
 v .* w = x v * x w + y v * y w + z v * z w
 
-veclen :: Vector -> Float
-veclen v = sqrt $ v .* v
+vector_length :: Vector -> Float
+vector_length v = sqrt $ v .* v
 
-vecarg :: Vector -> Vector -> Float
-vecarg v w = acos $ v .* w / (veclen v * veclen w)
+vector_angle :: Vector -> Vector -> Float
+vector_angle v w = acos $ v .* w / (vector_length v * vector_length w)
 
 instance Num Vector
  where
@@ -37,9 +37,9 @@ instance Num Vector
   v - w = Vector (x v - x w) (y v - y w) (z v - z w)
   v * w = Vector (y v * z w - z v * y w) (z v * x w - x v * z w) (x v * y w - y v * x w)
   negate v = Vector (- x v) (- y v) (- z v)
-  abs v =  Vector (veclen v) 0 0
+  abs v =  Vector (vector_length v) 0 0
   signum (Vector 0 0 0) = Vector 0 0 0
-  signum v = Vector (x v / veclen v) (y v / veclen v) (z v / veclen v)
+  signum v = Vector (x v / vector_length v) (y v / vector_length v) (z v / vector_length v)
   fromInteger i = Vector ((fromInteger :: Integer -> Float) i) 0 0
 
 instance Show Vector
@@ -51,14 +51,14 @@ data Plane = Plane {point :: Coordinates, normal :: Vector}
 plane :: Coordinates -> Coordinates -> Coordinates -> Plane
 plane p q r = Plane p $ (q - p) * (r - p)
 
-planearg :: Plane -> Plane -> Float
-planearg p q = pi - vecarg (normal p) (normal q)
+plane_angle :: Plane -> Plane -> Float
+plane_angle p q = pi - vector_angle (normal p) (normal q)
 
-vecplanearg :: Vector -> Plane -> Float
-vecplanearg v = abs . (pi / 2 -) . vecarg v . normal
+vector_plane_angle :: Vector -> Plane -> Float
+vector_plane_angle v = abs . (pi / 2 -) . vector_angle v . normal
 
-planevecarg :: Plane -> Vector -> Float
-planevecarg = flip vecplanearg
+plane_vector_angle :: Plane -> Vector -> Float
+plane_vector_angle = flip vector_plane_angle
 
 instance Show Plane
  where
