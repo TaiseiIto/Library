@@ -14,6 +14,8 @@ module Dynamics
  plane_vector_angle,
 ) where
 
+import qualified Control.Monad
+
 data Vector = Vector {x :: Float, y :: Float, z :: Float}
 
 type Coordinates = Vector
@@ -21,12 +23,13 @@ type Coordinates = Vector
 coordinates :: Float -> Float -> Float -> Coordinates
 coordinates = Vector
 
+-- Inner product of 2 vectors
 infixl 7 .*
 (.*) :: Vector -> Vector -> Float
 v .* w = x v * x w + y v * y w + z v * z w
 
 vector_length :: Vector -> Float
-vector_length v = sqrt $ v .* v
+vector_length = sqrt . Control.Monad.join (.*)
 
 vector_angle :: Vector -> Vector -> Float
 vector_angle v w = acos $ v .* w / (vector_length v * vector_length w)
@@ -35,6 +38,7 @@ instance Num Vector
  where
   v + w = Vector (x v + x w) (y v + y w) (z v + z w)
   v - w = Vector (x v - x w) (y v - y w) (z v - z w)
+  -- Cross product of 2 vectors
   v * w = Vector (y v * z w - z v * y w) (z v * x w - x v * z w) (x v * y w - y v * x w)
   negate v = Vector (- x v) (- y v) (- z v)
   abs v =  Vector (vector_length v) 0 0
