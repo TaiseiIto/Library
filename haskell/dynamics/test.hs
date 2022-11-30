@@ -38,4 +38,5 @@ main =
   putStrLn . ("rotate_vector (normal plane_a) (2 * pi / 3) vector_c = " ++) . show $ rotate_vector (normal plane_a) (2 * pi / 3) vector_c
   putStrLn . ("posture_a = " ++) . show $ posture_a
   putStrLn . ("posture_b = " ++) . show $ posture_b
+  putStrLn . ("reverse_posture posture_a = " ++) . show $ reverse_posture posture_a
 

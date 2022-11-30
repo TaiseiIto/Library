@@ -29,6 +29,7 @@ module Dynamics
  (-@=>),
  front_up_2_posture,
  posture,
+ reverse_posture,
 ) where
 
 import qualified Control.Monad
@@ -204,6 +205,15 @@ posture :: Double -> Double -> Double -> Posture
 posture unadjusted_roll unadjusted_pitch unadjusted_yaw =
  let (front, _, up) = posture_vectors $ Posture unadjusted_roll unadjusted_pitch unadjusted_yaw
  in front_up_2_posture front up
+
+reverse_posture :: Posture -> Posture
+reverse_posture posture_p =
+ let
+  front = Vector 1 0 0
+  up = Vector 0 0 1
+  reverse_front = posture_p -@=> front
+  reverse_up = posture_p -@=> up
+ in front_up_2_posture reverse_front reverse_up
 
 instance Show Posture
  where
