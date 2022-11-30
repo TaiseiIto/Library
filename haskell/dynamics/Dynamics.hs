@@ -39,6 +39,8 @@ module Dynamics
  reverse_state,
  (=>@),
  (@<=),
+ state_to_absolute,
+ state_to_relative,
 ) where
 
 import qualified Control.Monad
@@ -274,6 +276,12 @@ s =>@ t =
 infixl 8 @<=
 (@<=) :: State -> State -> State
 (@<=) s = (s =>@) . reverse_state
+
+state_to_absolute :: State -> State -> State
+state_to_absolute = (=>@)
+
+state_to_relative :: State -> State -> State
+state_to_relative = (=>@) . reverse_state
 
 instance Show State
  where

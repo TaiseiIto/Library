@@ -15,6 +15,18 @@ main =
   posture_b = front_up_2_posture vector_a vector_d
   state_a = State vector_a posture_a
   state_b = state 6 5 4 3 2 1
+  a_position = coordinates 0 0 0
+  a_front = Vector 1 1 1
+  a_left = Vector (-1) 1 0
+  a_up = a_front * a_left
+  a_posture = front_up_2_posture a_front a_up
+  a_state = State a_position a_posture
+  b_position = coordinates 1 1 1
+  b_front = Vector (-1) (-1) (-1)
+  b_left = Vector 1 (-1) 0
+  b_up = b_front * b_left
+  b_posture = front_up_2_posture b_front b_up
+  b_state = State b_position b_posture
  in do
   putStrLn . ("vector_a = " ++) . show $ vector_a
   putStrLn . ("vector_b = " ++) . show $ vector_b
@@ -52,4 +64,8 @@ main =
   putStrLn . ("state_a @<= state_a = " ++) . show $ state_a @<= state_a
   putStrLn . ("state_a =>@ state_b = " ++) . show $ state_a =>@ state_b
   putStrLn . ("state_a @<= state_b = " ++) . show $ state_a @<= state_b
+  putStrLn . ("a_state = " ++) . show $ a_state
+  putStrLn . ("b_state = " ++) . show $ b_state
+  putStrLn . ("state_to_relative a_state a_state = " ++) . show $ state_to_relative a_state a_state
+  putStrLn . ("state_to_relative b_state a_state = " ++) . show $ state_to_relative b_state a_state
 
