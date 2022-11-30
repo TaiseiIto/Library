@@ -26,6 +26,7 @@ module Dynamics
  Posture(Posture),
  posture_vectors,
  front_up_2_posture,
+ posture,
 ) where
 
 import qualified Control.Monad
@@ -123,20 +124,20 @@ instance Show Plane
 data Posture = Posture {roll :: Double, pitch :: Double, yaw :: Double}
 
 posture_vectors :: Posture -> (Vector, Vector, Vector)
-posture_vectors posture =
+posture_vectors posture_p =
  let
   front = Vector 1 0 0
   left = Vector 0 1 0
   up = Vector 0 0 1
-  rolled_front = rotate_vector front (roll posture) front
-  rolled_left = rotate_vector front (roll posture) left
-  rolled_up = rotate_vector front (roll posture) up
-  pitched_front = rotate_vector rolled_left (pitch posture) rolled_front
-  pitched_left = rotate_vector rolled_left (pitch posture) rolled_left
-  pitched_up = rotate_vector rolled_left (pitch posture) rolled_up
-  yawed_front = rotate_vector pitched_up (yaw posture) pitched_front
-  yawed_left = rotate_vector pitched_up (yaw posture) pitched_left
-  yawed_up = rotate_vector pitched_up (yaw posture) pitched_up
+  rolled_front = rotate_vector front (roll posture_p) front
+  rolled_left = rotate_vector front (roll posture_p) left
+  rolled_up = rotate_vector front (roll posture_p) up
+  pitched_front = rotate_vector rolled_left (pitch posture_p) rolled_front
+  pitched_left = rotate_vector rolled_left (pitch posture_p) rolled_left
+  pitched_up = rotate_vector rolled_left (pitch posture_p) rolled_up
+  yawed_front = rotate_vector pitched_up (yaw posture_p) pitched_front
+  yawed_left = rotate_vector pitched_up (yaw posture_p) pitched_left
+  yawed_up = rotate_vector pitched_up (yaw posture_p) pitched_up
  in (yawed_front, yawed_left, yawed_up)
 
 angle_error_limit :: Double
@@ -172,6 +173,11 @@ front_up_2_posture front up
       | vector_angle rolled_left front_unit <= pi / 2 = vector_angle pitched_front front_unit
       | otherwise = 2 * pi - vector_angle pitched_front front_unit
     in Posture posture_roll posture_pitch posture_yaw
+
+posture :: Double -> Double -> Double -> Posture
+posture unadjusted_roll unadjusted_pitch unadjusted_yaw =
+ let (front, _, up) = posture_vectors $ Posture unadjusted_roll unadjusted_pitch unadjusted_yaw
+ in front_up_2_posture front up
 
 instance Show Posture
  where
