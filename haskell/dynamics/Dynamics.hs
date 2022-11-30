@@ -25,6 +25,7 @@ module Dynamics
  rotate_vector,
  Posture(Posture),
  posture_vectors,
+ front_up_2_posture,
 ) where
 
 import qualified Control.Monad
@@ -104,7 +105,7 @@ plane_vector_angle = flip vector_plane_angle
 rotate_vector :: Vector -> Double -> Vector -> Vector
 rotate_vector axis angle vector
  | vector_length axis == 0 = Vector 0 0 0
- | vector .* vector == 0 = vector
+ | vector_length vector == 0 = vector
  | vector_angle vector axis == 0 = vector
  | otherwise =
     let
@@ -124,19 +125,53 @@ data Posture = Posture {roll :: Double, pitch :: Double, yaw :: Double}
 posture_vectors :: Posture -> (Vector, Vector, Vector)
 posture_vectors posture =
  let
-  front         = Vector 1 0 0
-  left          = Vector 0 1 0
-  up            = Vector 0 0 1
-  rolled_front  = rotate_vector front (roll posture) front
-  rolled_left   = rotate_vector front (roll posture) left
-  rolled_up     = rotate_vector front (roll posture) up
+  front = Vector 1 0 0
+  left = Vector 0 1 0
+  up = Vector 0 0 1
+  rolled_front = rotate_vector front (roll posture) front
+  rolled_left = rotate_vector front (roll posture) left
+  rolled_up = rotate_vector front (roll posture) up
   pitched_front = rotate_vector rolled_left (pitch posture) rolled_front
-  pitched_left  = rotate_vector rolled_left (pitch posture) rolled_left
-  pitched_up    = rotate_vector rolled_left (pitch posture) rolled_up
-  yawed_front   = rotate_vector pitched_up (yaw posture) pitched_front
-  yawed_left    = rotate_vector pitched_up (yaw posture) pitched_left
-  yawed_up      = rotate_vector pitched_up (yaw posture) pitched_up
+  pitched_left = rotate_vector rolled_left (pitch posture) rolled_left
+  pitched_up = rotate_vector rolled_left (pitch posture) rolled_up
+  yawed_front = rotate_vector pitched_up (yaw posture) pitched_front
+  yawed_left = rotate_vector pitched_up (yaw posture) pitched_left
+  yawed_up = rotate_vector pitched_up (yaw posture) pitched_up
  in (yawed_front, yawed_left, yawed_up)
+
+angle_error_limit :: Double
+angle_error_limit = 2 * pi / 360
+
+front_up_2_posture :: Vector -> Vector -> Posture
+front_up_2_posture front up
+ | vector_length front == 0 = Posture 0 0 0
+ | vector_length up == 0 = Posture 0 0 0
+ | angle_error_limit <= abs (pi / 2 - vector_angle front up) = Posture 0 0 0
+ | otherwise =
+    let
+     front_unit = signum front
+     up_unit    = signum up
+     point_o = coordinates 0 0 0
+     point_x = coordinates 1 0 0
+     point_y = coordinates 0 1 0
+     point_z = coordinates 0 0 1
+     front_back_separator = plane point_o point_y point_z
+     left_right_separator = plane point_x point_o point_z
+     up_projection = up_unit =>| front_back_separator
+     posture_roll
+      | y up_projection == 0 = 0
+      | y up_projection * z up_projection < 0 = vector_plane_angle up_projection left_right_separator
+      | otherwise = negate $ vector_plane_angle up_projection left_right_separator
+     rolled_up = rotate_vector point_x posture_roll point_z
+     posture_pitch
+      | 0 < x up_unit = vector_angle rolled_up up_unit
+      | otherwise = negate $ vector_angle rolled_up up_unit
+     rolled_left = rotate_vector point_x posture_roll point_y
+     pitched_front = rotate_vector rolled_left posture_pitch point_x
+     posture_yaw
+      | vector_angle rolled_left front_unit <= pi / 2 = vector_angle pitched_front front_unit
+      | otherwise = 2 * pi - vector_angle pitched_front front_unit
+    in Posture posture_roll posture_pitch posture_yaw
 
 instance Show Posture
  where
