@@ -23,6 +23,8 @@ module Dynamics
  vector_plane_angle,
  plane_vector_angle,
  rotate_vector,
+ Posture(Posture),
+ posture_vectors,
 ) where
 
 import qualified Control.Monad
@@ -116,4 +118,27 @@ rotate_vector axis angle vector
 instance Show Plane
  where
   show p = "(point " ++ (show . point $ p) ++ ", normal = " ++ (show . normal $ p) ++ ")"
+
+data Posture = Posture {roll :: Double, pitch :: Double, yaw :: Double}
+
+posture_vectors :: Posture -> (Vector, Vector, Vector)
+posture_vectors posture =
+ let
+  front         = Vector 1 0 0
+  left          = Vector 0 1 0
+  up            = Vector 0 0 1
+  rolled_front  = rotate_vector front (roll posture) front
+  rolled_left   = rotate_vector front (roll posture) left
+  rolled_up     = rotate_vector front (roll posture) up
+  pitched_front = rotate_vector rolled_left (pitch posture) rolled_front
+  pitched_left  = rotate_vector rolled_left (pitch posture) rolled_left
+  pitched_up    = rotate_vector rolled_left (pitch posture) rolled_up
+  yawed_front   = rotate_vector pitched_up (yaw posture) pitched_front
+  yawed_left    = rotate_vector pitched_up (yaw posture) pitched_left
+  yawed_up      = rotate_vector pitched_up (yaw posture) pitched_up
+ in (yawed_front, yawed_left, yawed_up)
+
+instance Show Posture
+ where
+  show p = "(roll = " ++ (show . roll $ p) ++ ", pitch = " ++ (show . pitch $ p) ++ ", yaw = " ++ (show . yaw $ p) ++ ")"
 
