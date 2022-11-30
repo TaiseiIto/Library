@@ -39,4 +39,5 @@ main =
   putStrLn . ("posture_a = " ++) . show $ posture_a
   putStrLn . ("posture_b = " ++) . show $ posture_b
   putStrLn . ("reverse_posture posture_a = " ++) . show $ reverse_posture posture_a
+  putStrLn . ("reverse_posture posture_a @>@ posture_a = " ++) . show $ reverse_posture posture_a @>@ posture_a
 
