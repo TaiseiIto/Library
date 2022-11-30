@@ -32,6 +32,10 @@ module Dynamics
  reverse_posture,
  (@>@),
  (@>-@),
+ State(State),
+ state_coordinates,
+ state_posture,
+ state,
 ) where
 
 import qualified Control.Monad
@@ -235,4 +239,13 @@ infixl 8 @>-@
 instance Show Posture
  where
   show p = "(roll = " ++ (show . roll $ p) ++ ", pitch = " ++ (show . pitch $ p) ++ ", yaw = " ++ (show . yaw $ p) ++ ")"
+
+data State = State {state_coordinates :: Coordinates, state_posture :: Posture}
+
+state :: Double -> Double -> Double -> Double -> Double -> Double -> State
+state state_x state_y state_z state_roll state_pitch state_yaw = State (coordinates state_x state_y state_z) $ posture state_roll state_pitch state_yaw
+
+instance Show State
+ where
+  show s = "(coordinates = " ++ (show . state_coordinates $ s) ++ ", posture = " ++ (show . state_posture $ s) ++ ")"
 

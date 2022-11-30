@@ -13,6 +13,8 @@ main =
   plane_b = plane (coordinates 1 2 3) (coordinates 4 5 6) (coordinates 9 8 7)
   posture_a = posture 4 5 6
   posture_b = front_up_2_posture vector_a vector_d
+  state_a = State vector_a posture_a
+  state_b = state 6 5 4 3 2 1
  in do
   putStrLn . ("vector_a = " ++) . show $ vector_a
   putStrLn . ("vector_b = " ++) . show $ vector_b
@@ -44,4 +46,6 @@ main =
   putStrLn . ("posture_a @>-@ posture_b = " ++) . show $ posture_a @>-@ posture_b
   putStrLn . ("posture_a @>-@ posture_b @>@ posture_b = " ++) . show $ posture_a @>-@ posture_b @>@ posture_b
   putStrLn . ("posture_a @>-@ posture_b @>@ posture_b @>-@ posture_a = " ++) . show $ posture_a @>-@ posture_b @>@ posture_b @>-@ posture_a
+  putStrLn . ("state_a = " ++) . show $ state_a
+  putStrLn . ("state_b = " ++) . show $ state_b
 
