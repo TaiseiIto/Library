@@ -37,7 +37,8 @@ module Dynamics
  state_posture,
  state,
  reverse_state,
- (=>@=>@)
+ (=>@),
+ (@<=),
 ) where
 
 import qualified Control.Monad
@@ -257,9 +258,9 @@ reverse_state s =
  in State reverse_s_c reverse_s_p
 
 -- Synthesize states
-infixl 8 =>@=>@
-(=>@=>@) :: State -> State -> State
-s =>@=>@ t =
+infixl 8 =>@
+(=>@) :: State -> State -> State
+s =>@ t =
  let
   s_c = state_coordinates s
   s_p = state_posture s
@@ -268,6 +269,11 @@ s =>@=>@ t =
   synthesized_coordinates = s_c + s_p @=> t_c
   synthesized_posture = t_p @>@ s_p
  in State synthesized_coordinates synthesized_posture
+
+-- Synthesize reverse state
+infixl 8 @<=
+(@<=) :: State -> State -> State
+(@<=) s = (s =>@) . reverse_state
 
 instance Show State
  where
