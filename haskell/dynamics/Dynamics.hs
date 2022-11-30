@@ -22,6 +22,7 @@ module Dynamics
  plane_angle,
  vector_plane_angle,
  plane_vector_angle,
+ rotate_vector,
 ) where
 
 import qualified Control.Monad
@@ -74,8 +75,7 @@ c <-| p =
  let
   n = normal p
   d = c - point p
- in
-  (d .* n / n .* n) <=<= n
+ in (d .* n / n .* n) <=<= n
 
 -- Projection of point onto plane
 infixl 7 ->|
@@ -98,6 +98,20 @@ vector_plane_angle v = abs . (pi / 2 -) . vector_angle v . normal
 
 plane_vector_angle :: Plane -> Vector -> Double
 plane_vector_angle = flip vector_plane_angle
+
+rotate_vector :: Vector -> Double -> Vector -> Vector
+rotate_vector axis angle vector
+ | vector_length axis == 0 = Vector 0 0 0
+ | vector .* vector == 0 = vector
+ | vector_angle vector axis == 0 = vector
+ | otherwise =
+    let
+     plane_p = Plane (coordinates 0 0 0) axis
+     vector_v = vector =>| plane_p
+     vector_w = vector - vector_v
+     vector_x = 1 / vector_length axis <=<= axis * vector_v
+     vector_y = cos angle <=<= vector_v + sin angle <=<= vector_x
+    in vector_w + vector_y
 
 instance Show Plane
  where
