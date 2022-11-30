@@ -36,6 +36,7 @@ module Dynamics
  state_coordinates,
  state_posture,
  state,
+ reverse_state,
 ) where
 
 import qualified Control.Monad
@@ -244,6 +245,15 @@ data State = State {state_coordinates :: Coordinates, state_posture :: Posture}
 
 state :: Double -> Double -> Double -> Double -> Double -> Double -> State
 state state_x state_y state_z state_roll state_pitch state_yaw = State (coordinates state_x state_y state_z) $ posture state_roll state_pitch state_yaw
+
+reverse_state :: State -> State
+reverse_state s =
+ let
+  s_c = state_coordinates s
+  s_p = state_posture s
+  reverse_s_p = reverse_posture s_p
+  reverse_s_c = (reverse_s_p @=>) . negate $ s_c
+ in State reverse_s_c reverse_s_p
 
 instance Show State
  where
