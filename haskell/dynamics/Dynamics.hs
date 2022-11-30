@@ -31,6 +31,7 @@ module Dynamics
  posture,
  reverse_posture,
  (@>@),
+ (@>-@),
 ) where
 
 import qualified Control.Monad
@@ -225,6 +226,11 @@ posture_p @>@ posture_q =
   rotated_front = posture_q @=> front
   rotated_up = posture_q @=> up
  in front_up_2_posture rotated_front rotated_up
+
+-- Synthesize reverse posture
+infixl 8 @>-@
+(@>-@) :: Posture -> Posture -> Posture
+(@>-@) posture_p = (posture_p @>@) . reverse_posture
 
 instance Show Posture
  where

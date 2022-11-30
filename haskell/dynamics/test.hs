@@ -40,4 +40,8 @@ main =
   putStrLn . ("posture_b = " ++) . show $ posture_b
   putStrLn . ("reverse_posture posture_a = " ++) . show $ reverse_posture posture_a
   putStrLn . ("reverse_posture posture_a @>@ posture_a = " ++) . show $ reverse_posture posture_a @>@ posture_a
+  putStrLn . ("posture_a @>-@ posture_a = " ++) . show $ posture_a @>-@ posture_a
+  putStrLn . ("posture_a @>-@ posture_b = " ++) . show $ posture_a @>-@ posture_b
+  putStrLn . ("posture_a @>-@ posture_b @>@ posture_b = " ++) . show $ posture_a @>-@ posture_b @>@ posture_b
+  putStrLn . ("posture_a @>-@ posture_b @>@ posture_b @>-@ posture_a = " ++) . show $ posture_a @>-@ posture_b @>@ posture_b @>-@ posture_a
 
