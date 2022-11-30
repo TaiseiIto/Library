@@ -24,8 +24,9 @@ module Dynamics
  plane_vector_angle,
  rotate_vector,
  Posture(Posture),
- (<^>=>),
+ (@=>),
  posture_vectors,
+ (-@=>),
  front_up_2_posture,
  posture,
 ) where
@@ -125,9 +126,9 @@ instance Show Plane
 data Posture = Posture {roll :: Double, pitch :: Double, yaw :: Double}
 
 -- Apply rotation to vector
-infixl 8 <^>=>
-(<^>=>) :: Posture -> Vector -> Vector
-posture_p <^>=> vector_v = 
+infixl 8 @=>
+(@=>) :: Posture -> Vector -> Vector
+posture_p @=> vector_v = 
  let
   front = Vector 1 0 0
   left = Vector 0 1 0
@@ -146,10 +147,24 @@ posture_vectors posture_p =
   front = Vector 1 0 0
   left = Vector 0 1 0
   up = Vector 0 0 1
-  rotated_front = posture_p <^>=> front
-  rotated_left = posture_p <^>=> left
-  rotated_up = posture_p <^>=> up
+  rotated_front = posture_p @=> front
+  rotated_left = posture_p @=> left
+  rotated_up = posture_p @=> up
  in (rotated_front, rotated_left, rotated_up)
+
+-- Apply reverse rotation to vector
+infixl 8 -@=>
+(-@=>) :: Posture -> Vector -> Vector
+posture_p -@=> vector_v = 
+ let
+  (front, left, up) = posture_vectors posture_p
+  unyawed_front = rotate_vector up (negate $ yaw posture_p) front
+  unyawed_left = rotate_vector up (negate $ yaw posture_p) left
+  unyawed_vector_v = rotate_vector up (negate $ yaw posture_p) vector_v
+  unpitched_front = rotate_vector unyawed_left (negate $ pitch posture_p) unyawed_front
+  unpitched_vector_v = rotate_vector unyawed_left (negate $ pitch posture_p) unyawed_vector_v
+  unrolled_vector_v = rotate_vector unpitched_front (negate $ roll posture_p) unpitched_vector_v
+ in unrolled_vector_v
 
 angle_error_limit :: Double
 angle_error_limit = 2 * pi / 360
