@@ -8,9 +8,11 @@ main =
   vector_a = Vector 1 2 3
   vector_b = Vector 3 2 1
   vector_c = Vector 1 0 0
+  vector_d = vector_a * vector_b
   plane_a = plane (coordinates 1 0 0) (coordinates 0 1 0) (coordinates 0 0 1)
   plane_b = plane (coordinates 1 2 3) (coordinates 4 5 6) (coordinates 9 8 7)
   posture_a = posture 4 5 6
+  posture_b = front_up_2_posture vector_a vector_d
  in do
   putStrLn . ("vector_a = " ++) . show $ vector_a
   putStrLn . ("vector_b = " ++) . show $ vector_b
@@ -35,4 +37,5 @@ main =
   putStrLn . ("plane_vector_angle plane_a $ vector_a =>| plane_a = " ++) . show . plane_vector_angle plane_a $ vector_a =>| plane_a
   putStrLn . ("rotate_vector (normal plane_a) (2 * pi / 3) vector_c = " ++) . show $ rotate_vector (normal plane_a) (2 * pi / 3) vector_c
   putStrLn . ("posture_a = " ++) . show $ posture_a
+  putStrLn . ("posture_b = " ++) . show $ posture_b
 

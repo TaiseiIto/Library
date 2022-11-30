@@ -151,7 +151,7 @@ front_up_2_posture front up
  | otherwise =
     let
      front_unit = signum front
-     up_unit    = signum up
+     up_unit = signum up
      point_o = coordinates 0 0 0
      point_x = coordinates 1 0 0
      point_y = coordinates 0 1 0
