@@ -27,6 +27,7 @@ module Dynamics
  posture_vectors,
  front_up_2_posture,
  posture,
+ (<^>=>),
 ) where
 
 import qualified Control.Monad
@@ -39,7 +40,7 @@ coordinates :: Double -> Double -> Double -> Coordinates
 coordinates = Vector
 
 -- Scalar multiplication of vector
-infixl 7 <=<=
+infixl 8 <=<=
 (<=<=) :: Double -> Vector -> Vector
 f <=<= v = Vector (f * x v) (f * y v) (f * z v)
 
@@ -61,7 +62,7 @@ instance Num Vector
   -- Cross product of 2 vectors
   v * w = Vector (y v * z w - z v * y w) (z v * x w - x v * z w) (x v * y w - y v * x w)
   negate v = Vector (- x v) (- y v) (- z v)
-  abs v =  Vector (vector_length v) 0 0
+  abs v = Vector (vector_length v) 0 0
   signum (Vector 0 0 0) = Vector 0 0 0
   signum v = Vector (x v / vector_length v) (y v / vector_length v) (z v / vector_length v)
   fromInteger i = Vector ((fromInteger :: Integer -> Double) i) 0 0
@@ -73,7 +74,7 @@ instance Show Vector
 data Plane = Plane {point :: Coordinates, normal :: Vector}
 
 -- Normal from plane to point
-infixl 7 <-|
+infixl 8 <-|
 (<-|) :: Coordinates -> Plane -> Coordinates
 c <-| p =
  let
@@ -82,12 +83,12 @@ c <-| p =
  in (d .* n / n .* n) <=<= n
 
 -- Projection of point onto plane
-infixl 7 ->|
+infixl 8 ->|
 (->|) :: Coordinates -> Plane -> Coordinates
 c ->| p = c - c <-| p
 
 -- Projection of vector onto plane
-infixl 7 =>|
+infixl 8 =>|
 (=>|) :: Vector -> Plane -> Vector
 v =>| p = v ->| p - (Vector 0 0 0) ->| p
 
@@ -113,7 +114,7 @@ rotate_vector axis angle vector
      plane_p = Plane (coordinates 0 0 0) axis
      vector_v = vector =>| plane_p
      vector_w = vector - vector_v
-     vector_x = 1 / vector_length axis <=<= axis * vector_v
+     vector_x = (1 / vector_length axis) <=<= axis * vector_v
      vector_y = cos angle <=<= vector_v + sin angle <=<= vector_x
     in vector_w + vector_y
 
@@ -178,6 +179,28 @@ posture :: Double -> Double -> Double -> Posture
 posture unadjusted_roll unadjusted_pitch unadjusted_yaw =
  let (front, _, up) = posture_vectors $ Posture unadjusted_roll unadjusted_pitch unadjusted_yaw
  in front_up_2_posture front up
+
+-- Apply rotation to vector
+infixl 8 <^>=>
+(<^>=>) :: Posture -> Vector -> Vector
+posture_p <^>=> vector_v = 
+ let
+  front = Vector 1 0 0
+  left = Vector 0 1 0
+  up = Vector 0 0 1
+  -- rolled_front = rotate_vector front (roll posture_p) front
+  rolled_left = rotate_vector front (roll posture_p) left
+  rolled_up = rotate_vector front (roll posture_p) up
+  rolled_vector_v = rotate_vector front (roll posture_p) vector_v
+  -- pitched_front = rotate_vector rolled_left (pitch posture_p) rolled_front
+  -- pitched_left = rotate_vector rolled_left (pitch posture_p) rolled_left
+  pitched_up = rotate_vector rolled_left (pitch posture_p) rolled_up
+  pitched_vector_v = rotate_vector rolled_left (pitch posture_p) rolled_vector_v
+  -- yawed_front = rotate_vector pitched_up (yaw posture_p) pitched_front
+  -- yawed_left = rotate_vector pitched_up (yaw posture_p) pitched_left
+  -- yawed_up = rotate_vector pitched_up (yaw posture_p) pitched_up
+  yawed_vector_v = rotate_vector pitched_up (yaw posture_p) pitched_vector_v
+ in yawed_vector_v
 
 instance Show Posture
  where
